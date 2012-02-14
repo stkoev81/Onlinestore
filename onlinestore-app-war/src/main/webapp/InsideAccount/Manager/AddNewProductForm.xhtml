@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+    <title>Facelet Title</title>
+</h:head>
+    <h:body>
+        <ui:composition template="/templates/baseLayout.xhtml">
+            <ui:define name="metadata">                
+            </ui:define>
+            
+            <ui:define name="pageTitle">
+                Add new product form
+            </ui:define>    
+            
+            <ui:define name="content">   
+                
+                <h:panelGroup rendered ="#{insideAccount.isDemo()}">
+         <h:outputText styleClass="demo" value="#{msgs.demoWarningSaveChanges}"/><br/>
+        <h:outputText styleClass="demo" value="#{msgs.demoWarningEmailMe}"/>  <br/>         
+     </h:panelGroup >
+                <h:messages layout="table" style="color:red"/> 
+                                
+                
+                <h:form id="uploadForm" enctype="multipart/form-data">
+                <ui:include src="Sections/CommonProductAdd.xhtml"/>  
+                    
+                <h:panelGroup rendered="#{addNewProduct.newProductType.equals('Book')}">
+                    <ui:include src="Sections/BookSpecificAdd.xhtml"/> 
+                </h:panelGroup>
+                
+                <h:panelGroup rendered="#{addNewProduct.newProductType.equals('CD')}">
+                    <ui:include src="Sections/CDSpecificAdd.xhtml"/>
+                </h:panelGroup>
+                
+                <h:commandButton value="Save new product" action="#{addNewProduct.createNewProduct}" disabled="#{insideAccount.isDemo()}"/>
+                <h:commandButton value="Cancel" immediate="true" action="#{addNewProduct.cancelNewProduct}"/>
+                <h:commandButton value="Back" immediate="true" action="#{addNewProduct.back}"/>
+                </h:form>
+                    
+                
+            </ui:define>
+             <ui:define name="sidebar">               
+                <ui:include src="/LogIn/Sections/Sidebar.xhtml"/>
+            </ui:define>
+            
+        </ui:composition>
+    </h:body>
+</html>
+

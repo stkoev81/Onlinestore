@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:t="http://myfaces.apache.org/tomahawk"
+      >
+    
+           
+        <h:head>
+        <title>Results table</title>
+    </h:head>
+       <h:body>
+         <ui:composition>       
+         
+         <b>Properties common to all products</b> <br/>
+         
+         <h:panelGrid columns="2">
+             Product ID
+             <h:outputText value="#{viewStoreProducts.singleProduct.productID}"/>
+             Product name
+             <h:inputText label="Product name" value="#{viewStoreProducts.singleProduct.name}" required="true">
+                <f:event type="preValidate" listener="#{viewStoreProducts.saveParameters}"/>
+             </h:inputText>   
+           
+             
+             Price
+             <h:inputText label="Price" value="#{viewStoreProducts.singleProduct.price}" required="true"/>
+             Number in warehouse
+             
+             <h:panelGroup>
+                <h:inputText id="numberInWarehouse" label="Number in warehouse" value="#{viewStoreProducts.singleProduct.numbers.numberInWarehouse}"/>
+                Update number in warehouse
+                <h:selectBooleanCheckbox id="updateNumber" label="Update number" value="#{viewStoreProducts.updateNumberInWarehouse}"/>        
+                
+                <h:inputHidden id="updateNumberValidate" validator="#{viewStoreProducts.updateNumberValidate}"
+                               value="updateNumberValidate"/>
+             </h:panelGroup>
+             
+             Number in shopping carts
+             <h:outputText value="#{viewStoreProducts.singleProduct.numbers.numberInCarts}"/>
+             Number in unprocessed orders
+             <h:outputText value="#{viewStoreProducts.singleProduct.numbers.numberInUnprocessedOrders}"/>
+             Number available in store
+             <h:outputText value="#{viewStoreProducts.singleProduct.numbers.numberAvailable}"/>
+             
+             
+             Show product <br/> in store
+             <h:selectBooleanCheckbox label="Show in store" value="#{viewStoreProducts.singleProduct.displayProductInStore}"/>        
+             <h:panelGroup>
+             Image file <br/>
+            
+             </h:panelGroup>
+             
+             <h:panelGroup>
+             <t:inputFileUpload id="file" label="Image file" value="#{viewStoreProducts.uploadedFile}" validator="#{addNewProduct.fileSizeValidate}"  />
+              (leave blank to keep old image)
+              </h:panelGroup>
+             Current image<br/>
+            <h:panelGroup/>
+            <h:panelGroup/>
+            <img style="width:9em; margin-left:1em;" src="#{requestInfo.contextPath}/ImageServlet/#{viewStoreProducts.singleProduct.image.imageID}"/>
+                    
+        </h:panelGrid>
+         <br/>
+             
+        </ui:composition>
+    </h:body>
+</html>
+
+<!--
+Don't update number
+CAUTION: Uncheck this box only only if you have exact knowledge of the current inventory and are trying to update it. 
+-->

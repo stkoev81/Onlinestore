@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      >
+    
+           
+        <h:head>
+        <title>Results table</title>
+    </h:head>
+       <h:body>
+         <ui:composition>   
+           
+         
+        <h:panelGroup rendered="#{viewStoreProducts.pager.showPager()}">  
+        <ui:repeat value="#{viewStoreProducts.pager.pageList}" var="entry" >
+            <h:link  includeViewParams="true" value="#{entry.linkName}" rendered="#{!entry.currentLink}"> 
+                <f:param name="firstItem" value="#{entry.linkParam}"/>           
+            </h:link> 
+            <h:outputText value ="#{entry.linkName}" rendered="#{entry.currentLink}"/>
+            &nbsp; 
+        </ui:repeat>  
+            </h:panelGroup>
+          
+        
+        
+        </ui:composition>
+    </h:body>
+</html>
+

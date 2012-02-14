@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:t="http://myfaces.apache.org/tomahawk"
+      >
+    
+           
+        <h:head>
+        <title>Results table</title>
+    </h:head>
+       <h:body>
+         <ui:composition>       
+         
+         <b>Properties common to all products</b> <br/>
+         
+         <h:panelGrid columns="2">
+             Product name
+             <h:inputText label="Product name" value="#{addNewProduct.product.name}" required="true"/>
+             Price
+             <h:inputText label="Price" value="#{addNewProduct.product.price}" required="true"/>
+             Number available
+             <h:inputText label="Number available" value="#{addNewProduct.product.numbers.numberAvailable}" required="true"/>
+             Show in store
+             <h:selectBooleanCheckbox label="Show in store" value="#{addNewProduct.product.displayProductInStore}"/>        
+             Image file
+                    <t:inputFileUpload id="file" label="Image file" value="#{addNewProduct.uploadedFile}" validator="#{addNewProduct.fileSizeValidate}" required="true" />
+                    
+        </h:panelGrid>
+         <br/>
+             
+        </ui:composition>
+    </h:body>
+</html>
+

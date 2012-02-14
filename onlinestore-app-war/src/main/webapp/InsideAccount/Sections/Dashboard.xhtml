@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:ui="http://java.sun.com/jsf/facelets">
+           
+<h:head>
+    <title>Facelets page</title>
+</h:head>
+<h:body>
+<ui:composition>
+    <h1> Your account </h1>
+  
+    
+     <h:panelGroup rendered="#{insideAccount.isEmployee()}">
+        You have the following user roles in the system: <br/>
+        <ui:repeat value="#{insideAccount.groups}" var="group"> #{group} <br/> </ui:repeat>
+        <br/>
+    </h:panelGroup>
+    
+    <h:panelGroup rendered ="#{insideAccount.isDemo()}">
+        <h:outputText styleClass="demo" value="#{msgs.demoWarningLimitedFunctionality}"/><br/>
+        <h:outputText styleClass="demo" value="#{msgs.demoWarningEmailMe}"/>  <br/>  
+    </h:panelGroup >           
+    
+    
+    <h:panelGroup rendered="#{logIn.isInRole('CUSTOMER')}">
+        <h:panelGroup rendered="#{insideAccount.isEmployee()}">
+            <h2>CUSTOMER actions </h2>
+        </h:panelGroup>        
+        <h:panelGroup rendered="#{!insideAccount.isEmployee()}">
+             <h2>Choose from the following options </h2>
+        </h:panelGroup>        
+        
+        <h:link value="Change account information" outcome="/InsideAccount/ChangeAccount.xhtml"/> 
+            <h:outputText styleClass="demo" value=" (Limited functionality)" rendered="#{insideAccount.isDemo()}"/><br/>
+        <h:link value="Delete account" outcome="/InsideAccount/DeleteAccount.xhtml"/> 
+            <h:outputText styleClass="demo" value=" (Limited functionality)" rendered="#{insideAccount.isDemo()}"/><br/>
+        <h:link value="View order history" outcome="/InsideAccount/OrderHistory.xhtml"/> <br/>    
+        <h:link value="Browse store" outcome="/BrowseStore/BrowseBooks.xhtml"/> <br/>    
+        <h:link value="View cart" outcome="/BrowseStore/ViewCart.xhtml"/> <br/>
+        <h:link value="Check out" outcome="/BrowseStore/CheckOut.xhtml"/> <br/>    
+        <br/>
+    </h:panelGroup>    
+      
+    
+
+    
+    <h:panelGroup rendered="#{logIn.isInRole('MANAGER')}">
+        
+           <h2> MANAGER actions </h2>
+        <h:link value="Change account information" outcome="/InsideAccount/ChangeAccount.xhtml"/>
+            <h:outputText styleClass="demo" value=" (Limited functionality)" rendered="#{insideAccount.isDemo()}"/><br/>
+        <h:link value="View/process store orders" outcome="/InsideAccount/Employee/ViewStoreOrders.xhtml"/><br/>
+            
+        <h:link value="View/modify store products" outcome="/InsideAccount/Employee/ViewStoreProducts.xhtml"/>
+            <h:outputText styleClass="demo" value=" (Limited functionality)" rendered="#{insideAccount.isDemo()}"/><br/>
+   
+    <br/>
+    </h:panelGroup>
+    
+    <h:panelGroup rendered="#{logIn.isInRole('ACCOUNTANT')}">
+        
+            <h2>ACCOUNTANT actions </h2>
+        
+    <h:link value="Change account information" outcome="/InsideAccount/ChangeAccount.xhtml"/>
+        <h:outputText styleClass="demo" value=" (Limited functionality)" rendered="#{insideAccount.isDemo()}"/><br/>
+    <h:link value="View/process store orders" outcome="/InsideAccount/Employee/ViewStoreOrders.xhtml"/><br/>
+        
+        <h:link value="View store products" outcome="/InsideAccount/Employee/ViewStoreProducts.xhtml"/><br/>
+            
+    <br/>
+    </h:panelGroup>
+    
+    <h:panelGroup rendered="#{logIn.isInRole('WAREHOUSE_WORKER')}">
+        
+            <h2>WAREHOUSE_WORKER actions </h2>
+        
+    <h:link value="Change account information" outcome="/InsideAccount/ChangeAccount.xhtml"/>
+        <h:outputText styleClass="demo" value=" (Limited functionality)" rendered="#{insideAccount.isDemo()}"/><br/>
+    <h:link value="View/process store orders" outcome="/InsideAccount/Employee/ViewStoreOrders.xhtml"/><br/>
+            
+        <h:link value="View store products" outcome="/InsideAccount/Employee/ViewStoreProducts.xhtml"/><br/>
+    <br/>
+    </h:panelGroup>
+
+     
+    
+
+</ui:composition>
+</h:body>
+</html>
+

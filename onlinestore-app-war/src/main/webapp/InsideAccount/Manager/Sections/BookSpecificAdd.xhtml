@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      >
+    
+           
+        <h:head>
+        <title>Results table</title>
+    </h:head>
+       <h:body>
+         <ui:composition>       
+      <b>Properties specific to Book </b><br/>
+         <h:panelGrid columns="2">
+             Title
+             <h:inputText label="Title" value="#{addNewProduct.product.title}" required="true"/>
+             Author
+             <h:inputText label="Author" value="#{addNewProduct.product.author}" required="true"/>
+             ISBN
+             <h:inputText label="ISBN" value="#{addNewProduct.product.isbn}" required="true" validator="#{validator.isbnValidate}"/>
+             Summary (2000 char max)
+             <h:inputTextarea cols="40" rows="10" label="Summary" value="#{addNewProduct.product.summary}" required="true">
+                <f:validateLength maximum ="2000"/>
+             </h:inputTextarea>
+             
+             
+                                
+        </h:panelGrid> 
+        
+          
+        
+        
+        </ui:composition>
+    </h:body>
+</html>
+

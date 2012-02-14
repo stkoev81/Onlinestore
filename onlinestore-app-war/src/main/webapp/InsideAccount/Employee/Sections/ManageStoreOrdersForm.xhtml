@@ -1,0 +1,228 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      >
+    
+           
+        <h:head>
+        <title>Results table</title>
+    </h:head>
+       <h:body>
+         <ui:composition>     
+        <br/> <br/>
+        
+        <f:event type="preRenderView" listener="#{viewStoreOrders.querySingle}"/>   
+          
+          <h:link value="Back to orders" outcome="/InsideAccount/Employee/ViewStoreOrders.xhtml" includeViewParams="true"/>   &nbsp;
+          <h:link value="Refresh page" outcome="/InsideAccount/Employee/ManageStoreOrders.xhtml" includeViewParams="true"/>
+         
+          <br/> <br/>
+          <h:dataTable value="#{viewStoreOrders.singleOrder}" var="entry" styleClass="storeOrdersTable">
+                    <h:column>
+                        <f:facet name="header">Order date</f:facet>
+                        <h:outputText value="#{entry.orderDateFormatted}" />
+                    </h:column>                
+                    <h:column>
+                        <f:facet name="header">ID</f:facet>
+                        <h:outputText value="#{entry.id}" />
+                    </h:column>  
+                    <h:column>
+                        <f:facet name="header">Total cost</f:facet>
+                        $<h:outputText value="#{entry.totalCost}" />
+                    </h:column>  
+                    <h:column>
+                        <f:facet name="header">Last modified date</f:facet>
+                        <h:outputText value="#{entry.lastModifiedFormatted}" />
+                    </h:column>  
+             
+                     <h:column>
+                        <f:facet name="header">Last modified by</f:facet>
+                        <h:outputText value="#{entry.lastActor}" />
+                    </h:column>  
+                    <h:column>
+                        <f:facet name="header">Current status</f:facet>
+                        <h:outputText value="#{entry.currentStatus}" />
+                    </h:column>  
+                    <h:column>
+                        <f:facet name="header">Next action required</f:facet>
+                        <h:outputText value="#{entry.nextActionRequired}" />
+                    </h:column>  
+                    <h:column>
+                        <f:facet name="header">Group responsible for next action</f:facet>
+                        <h:outputText value="#{entry.nextActorTypeRequired}" />
+                    </h:column>                  
+           </h:dataTable> 
+
+          <br/>
+          <h:outputText rendered="#{!viewStoreOrders.showActions()}" value="No actions on this order are needed from your employee group at this time."/>                   
+          
+          
+          <h:panelGroup rendered="#{viewStoreOrders.showActions()}">
+          The next action required for this order is "#{viewStoreOrders.singleOrder.nextActionRequired}" by 
+          the employee group "#{viewStoreOrders.singleOrder.nextActorTypeRequired}". You are part of this 
+          group, so you can perform this action and update the order status. <br/><br/>
+          New order status: &nbsp;
+              <h:form style="display:inline">
+             <h:selectOneMenu label="New status" value="#{viewStoreOrders.newStatus}">
+                <f:selectItems value="#{viewStoreOrders.possibleStatuses}"/>
+              </h:selectOneMenu>        
+                
+                <h:inputHidden value="#{viewStoreOrders.singleOrderID}"/>
+                <h:inputHidden value="#{viewStoreOrders.pager.firstItem}"/>
+                <h:inputHidden value="#{viewStoreOrders.pager.ipp}"/>
+                <h:inputHidden  value="#{viewStoreOrders.sortBy}" />
+                <h:inputHidden  value="#{viewStoreOrders.searchString}" />
+                <h:inputHidden  value="#{viewStoreOrders.sortDir}"/>
+               <h:commandButton value="Update" action="#{viewStoreOrders.updateOrderStatus}"/> 
+              </h:form>
+              </h:panelGroup>
+            <br/>   
+            <br/>
+            <!-- Order status history -->
+            <hr/>
+            Order status history <br/>
+            <h:dataTable value="#{viewStoreOrders.singleOrder.statusHistory}" var="row" styleClass="storeOrdersTable">
+                <h:column>
+                        <f:facet name="header">Status</f:facet>
+                        <h:outputText value="#{row.status}" />
+                        
+                    </h:column> 
+                <h:column>
+                    <f:facet name="header">Placed in this status on date</f:facet>
+                    <h:outputText value="#{row.statusBeganFormatted}" />
+                    
+                </h:column> 
+                    <h:column>
+                        <f:facet name="header">Placed in this status by</f:facet>
+                        <h:outputText value="#{row.actor}" />
+                    
+                    </h:column> 
+            
+          </h:dataTable>
+          <br/>
+          <hr/>
+            <!-- Order summary -->
+             Order contents: <br/>
+                  <h:dataTable value="#{viewStoreOrders.singleOrder.orderLines}" var="entry" styleClass="storeOrdersTable ">
+                    <h:column>
+                        <f:facet name="header">Product name</f:facet>
+                        <h:outputText value="#{entry.product.name}" />
+                        <f:facet name="footer"><b>ORDER TOTAL</b></f:facet>
+                    </h:column>                     
+                      <h:column>
+                        <f:facet name="header">Product ID</f:facet>
+                        <h:outputText value="#{entry.product.productID}" />
+                        
+                    </h:column>  
+                    <h:column>
+                        <f:facet name="header">Quantity</f:facet>
+                        <h:outputText   value="#{entry.number}" style="width:2em"/>
+                        
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Price</f:facet>
+                        $#{entry.product.price}
+                        <f:facet name="footer"> $#{viewStoreOrders.singleOrder.totalCost}</f:facet>
+                    </h:column>
+
+                    <br/><br/>                      
+                        
+               </h:dataTable>
+                <hr/>
+               Customer information: 
+               
+         <h:panelGrid  columns="2" >               
+ 
+        <h:outputText value ="E-mail" />
+        <h:outputText value ="#{viewStoreOrders.singleOrder.ui.email}" /> 
+
+
+        <h:outputText  value="First Name"/> 
+        <h:outputText value ="#{viewStoreOrders.singleOrder.ui.firstName}"/>                  
+
+        <h:outputText value ="Last Name"/> 
+        <h:outputText value ="#{viewStoreOrders.singleOrder.ui.lastName}"/>
+
+        <h:outputText value ="Shipping address"/>
+        <p/>               
+
+        <h:outputText value ="&nbsp;&nbsp;Street"/>
+        <h:outputText  value="#{viewStoreOrders.singleOrder.ui.shippingAddress.street}"/> 
+
+        <h:outputText value ="&nbsp;&nbsp;City"/> 
+        <h:outputText  value ="#{viewStoreOrders.singleOrder.ui.shippingAddress.city}"/> 
+
+        <h:outputText value ="&nbsp;&nbsp;State or province"/> 
+        <h:outputText  value ="#{viewStoreOrders.singleOrder.ui.shippingAddress.addressState}"/>
+
+        <h:outputText value ="&nbsp;&nbsp;ZIP or postal code&nbsp;&nbsp;"/>
+        <h:outputText value="#{viewStoreOrders.singleOrder.ui.shippingAddress.zip}"/>   
+
+        <h:outputText value ="&nbsp;&nbsp;Country"/>
+        <h:outputText value ="#{viewStoreOrders.singleOrder.ui.shippingAddress.country}"/>   
+
+        <h:outputText value ="&nbsp;&nbsp;Phone"/>
+        <h:outputText value="#{viewStoreOrders.singleOrder.ui.shippingAddress.phone}"/>   
+        </h:panelGrid>
+               
+               
+       <h:panelGroup rendered="#{logIn.isInRole('ACCOUNTANT')}"><!-- billing information, only accountant should see it -->
+        
+       <h:panelGrid columns="2">
+            <h:outputText value ="Credit card"/>
+            <h:panelGroup>
+                <h:outputText  value="#{viewStoreOrders.singleOrder.ui.cardType}"/>
+                &nbsp; expires &nbsp;
+                <h:outputText  value="#{viewStoreOrders.singleOrder.ui.cardMonth}"/>/
+                <h:outputText  value="#{viewStoreOrders.singleOrder.ui.cardYear}"/>
+            </h:panelGroup>
+
+            <h:outputText value ="Card number"/>
+            <h:panelGroup>
+                <h:outputText  id="cardNumber" value="#{viewStoreOrders.singleOrder.ui.cardNumber}"
+                /> 
+            </h:panelGroup>
+
+            <h:outputText value = "Billing address"/>
+            <h:outputText value = "Same as shipping" rendered="#{viewStoreOrders.singleOrder.ui.sameAsShipping}"/>
+       </h:panelGrid>
+        
+               
+        <h:panelGrid columns="2" rendered="#{!viewStoreOrders.singleOrder.ui.sameAsShipping}">       
+        
+
+        <h:outputText  value ="&nbsp;&nbsp;Street"/>
+        <h:outputText  value ="#{viewStoreOrders.singleOrder.ui.billingAddress.street}"/> 
+
+        <h:outputText value ="&nbsp;&nbsp;City"/> 
+        <h:outputText value ="#{viewStoreOrders.singleOrder.ui.billingAddress.city}"/> 
+
+        <h:outputText value ="&nbsp;&nbsp;State or province"/> 
+        <h:outputText  value ="#{viewStoreOrders.singleOrder.ui.billingAddress.addressState}"/> 
+
+        <h:outputText value ="&nbsp;&nbsp;ZIP or postal code&nbsp;&nbsp;"/>
+        <h:outputText  value ="#{viewStoreOrders.singleOrder.ui.billingAddress.zip}"/>   
+
+        <h:outputText value ="&nbsp;&nbsp;Country"/>
+        <h:outputText  value ="#{viewStoreOrders.singleOrder.ui.billingAddress.country}"/>   
+
+        <h:outputText value ="&nbsp;&nbsp;Phone"/>
+        
+        
+        <h:outputText  value ="#{viewStoreOrders.singleOrder.ui.billingAddress.phone}"/>  
+        
+        
+        <p/>
+        </h:panelGrid> 
+           </h:panelGroup>
+            
+            
+            
+          
+          <ui:debug/>
+        </ui:composition>
+    </h:body>
+</html>
+

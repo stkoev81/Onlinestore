@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+    <title>Facelet Title</title>
+</h:head>
+    <h:body>
+        <ui:composition template="/templates/baseLayout.xhtml">
+            <ui:define name="metadata">
+                 <f:metadata>
+                    <f:viewParam name="id" value="#{viewStoreOrders.singleOrderID}"></f:viewParam>
+                     <f:viewParam name="firstItem" value="#{viewStoreOrders.pager.firstItem}"></f:viewParam>
+                     <f:viewParam name="ipp" value ="#{viewStoreOrders.pager.ipp}"/>
+                    <f:viewParam name="sortBy" value="#{viewStoreOrders.sortBy}" />
+                    <f:viewParam name="searchString" value="#{viewStoreOrders.searchString}" />
+                    <f:viewParam name="sortDir" value="#{viewStoreOrders.sortDir}"/>
+                 </f:metadata> 
+            </ui:define>
+            
+            <ui:define name="pageTitle">
+                Book details
+            </ui:define>    
+            
+            <ui:define name="content">   
+                
+                <h:messages layout="table" style="color:red"/> 
+                
+                
+                <ui:include src="Sections/ManageStoreOrdersForm.xhtml"/>  
+                
+                
+            </ui:define>
+             <ui:define name="sidebar">               
+                <ui:include src="/LogIn/Sections/Sidebar.xhtml"/>
+            </ui:define>
+            
+        </ui:composition>
+    </h:body>
+</html>
+

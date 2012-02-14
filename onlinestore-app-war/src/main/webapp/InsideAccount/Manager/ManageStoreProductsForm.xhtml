@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      > 
+        <h:head>
+        <title>Results table</title>
+    </h:head>
+       <h:body>
+         <ui:composition>     
+        <br/> <br/>
+        
+        <f:event type="preRenderView" listener="#{viewStoreProducts.querySingle}"/>   
+        
+          
+          <h:link value="Back to products" outcome="/InsideAccount/Employee/ViewStoreProducts.xhtml" includeViewParams="true"/>   &nbsp;
+          <h:link value="Refresh page" outcome="/InsideAccount/Manager/ManageStoreProducts.xhtml" includeViewParams="true"/>
+         
+          <br/> <br/>
+          <h:panelGroup rendered ="#{insideAccount.isDemo()}">
+          <h:outputText styleClass="demo" value="#{msgs.demoWarningSaveChanges}"/><br/>
+        <h:outputText styleClass="demo" value="#{msgs.demoWarningEmailMe}"/>  <br/>          
+     </h:panelGroup >
+         
+          <h:form id="uploadForm" enctype="multipart/form-data" >
+                <ui:include src="Sections/CommonProductManage.xhtml"/>  
+                <h:panelGroup rendered="#{viewStoreProducts.singleProductType.equals('Book')}">
+                    <ui:include src="Sections/BookSpecificManage.xhtml"/> 
+                </h:panelGroup>
+                <h:panelGroup rendered="#{viewStoreProducts.singleProductType.equals('CD')}">
+                    <ui:include src="Sections/CDSpecificManage.xhtml"/>
+                </h:panelGroup>
+                    <h:inputHidden  id="singleProductID" value="#{viewStoreProducts.singleProductID}" immediate="true" />
+                     <h:inputHidden id="firstItem" value="#{viewStoreProducts.pager.firstItem}" immediate="true" />
+                     <h:inputHidden id="ipp" value ="#{viewStoreProducts.pager.ipp}" immediate="true" />
+                    <h:inputHidden id="sortBy" value="#{viewStoreProducts.sortBy}" immediate="true" />
+                    <h:inputHidden id="searchString" value="#{viewStoreProducts.searchString}" immediate="true"/>
+                    <h:inputHidden  id="sortDir" value="#{viewStoreProducts.sortDir}" immediate="true"/>
+                    <h:inputHidden id="singleProductType" value="#{viewStoreProducts.singleProductType}" immediate="true"/>
+                
+                <h:commandButton value="Save changes" action="#{viewStoreProducts.updateProductAction}" disabled="#{insideAccount.isDemo()}"/>
+                
+                
+        </h:form>
+            
+            
+          
+          <ui:debug/>
+        </ui:composition>
+    </h:body>
+</html>
+

@@ -1,0 +1,149 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      >
+    
+           
+        <h:head>
+        <title>Results table</title>
+    </h:head>
+       <h:body>
+           
+         <ui:composition> 
+             <script type="text/javascript">
+function displaymessage()
+{
+document.getElementById("searchTip").style.display = "block"; 
+}
+function hidemessage()
+{
+document.getElementById("searchTip").style.display="none";
+}
+</script>
+             <h:form style="display:inline">
+               <h:inputText id="search" value="#{viewStoreProducts.searchString}" onfocus="displaymessage()" onblur="hidemessage()" ></h:inputText>
+                 <h:commandButton value="Search products" action="#{viewStoreProducts.redirectToSelf}"/> 
+                 <h:commandButton value="Clear search" action="#{viewStoreProducts.redirectToSelf}" actionListener="#{viewStoreProducts.clearSearch}"/>
+           </h:form>
+             
+             <br/>
+             <div>
+             <div id="searchTip" class="messageBox">
+                 Search is case-insensitive. <br/><br/>
+                 This will search for: <br/>
+                 - product name (approximate match) <br/>
+                 - product id (exact match only)<br/>                 
+                 - product type (exact match only) <br/>
+                 - last modified by (exact match only)
+             </div>
+             </div>
+              
+        <br/>
+        <h:form>             
+            Items per page: 
+            <h:selectOneMenu id="ipp" value="#{viewStoreProducts.pager.ipp}" >
+               <f:selectItem itemValue="1" />
+                <f:selectItem itemValue="2" />
+                <f:selectItem itemValue="5" />   
+                <f:selectItem itemValue="10" />
+                <f:selectItem itemValue="20" />
+            </h:selectOneMenu>
+            
+            Sort by:
+             <h:selectOneMenu id="sortBy" value = "#{viewStoreProducts.sortBy}">
+                <f:selectItem itemValue="productID" itemLabel="Product ID" />
+                <f:selectItem itemValue="price" itemLabel="Price"/>
+                <f:selectItem itemValue="name" itemLabel="Product name"/>                    
+                <f:selectItem itemValue="productType" itemLabel="Product type"/>                
+                <f:selectItem itemValue="lastModifiedDate" itemLabel="Last modified date"/>
+                <f:selectItem itemValue="lastModifiedBy" itemLabel="Last modified by"/>
+                <f:selectItem itemValue="displayProductInStore" itemLabel="Show in store"/>
+                <f:selectItem itemValue="numbers.numberInWarehouse" itemLabel="Number in warehouse"/>
+                <f:selectItem itemValue="numbers.numberInCarts" itemLabel="Number in carts"/>
+                <f:selectItem itemValue="numbers.numberInUnprocessedOrders" itemLabel="Number in unprocessed orders"/>
+                <f:selectItem itemValue="numbers.numberAvailable" itemLabel="Number available in store"/>
+                
+                
+            </h:selectOneMenu>  
+             <h:selectOneMenu id="sortDir" value ="#{viewStoreProducts.sortDir}">
+                <f:selectItem itemValue="ASC" itemLabel="Ascending"/>
+                <f:selectItem itemValue ="DESC" itemLabel="Descending"/>
+            </h:selectOneMenu>
+        <h:commandButton type="submit" value="Update" actionListener="#{viewStoreProducts.resetFirstItem}" action="#{viewStoreProducts.redirectToSelf}"/>    
+        </h:form>
+        <br/><br/>
+        <ui:include src="ProductsPager.xhtml"/> <br/><br/>
+        
+        <f:event type="preRenderView" listener="#{viewStoreProducts.queryAll}"/>   
+                  
+        <h:link value="Add new product" outcome="/InsideAccount/Manager/AddNewProduct.xhtml" rendered="#{logIn.isInRole('MANAGER')}"/> <br/><br/> 
+        <h:dataTable value="#{viewStoreProducts.products}" var="entry" styleClass="storeOrdersTable">
+                    <h:column>
+                        <f:facet name="header">ID</f:facet>
+                        <h:outputText value="#{entry.productID}" />
+                    </h:column>                
+                    <h:column>
+                        <f:facet name="header">Price</f:facet>
+                        $#{entry.price}
+                        
+                    </h:column>  
+                    <h:column>
+                        <f:facet name="header">Product name</f:facet>
+                        <h:outputText value="#{entry.name}" />
+                    </h:column>  
+                    <h:column>
+                        <f:facet name="header">Type</f:facet>
+                        <h:outputText value="#{entry.productType}" />
+                    </h:column>               
+                                      
+                     <h:column>
+                        <f:facet name="header">Last modified date</f:facet>
+                        <h:outputText value="#{entry.lastModifiedDateFormatted}" />
+                    </h:column>   
+                     <h:column>
+                        <f:facet name="header">Last modified by</f:facet>
+                        <h:outputText value="#{entry.lastModifiedBy}" />
+                    </h:column> 
+                    <h:column>
+                        <f:facet name="header">Show product in store</f:facet>
+                        <h:outputText value="#{entry.displayProductInStore}"/>
+                    </h:column>
+            
+                    <h:column>
+                        <f:facet name="header"> # in warehouse</f:facet>
+                        <h:outputText value="#{entry.numbers.numberInWarehouse}" />
+                    </h:column>          
+            
+                    <h:column>
+                        <f:facet name="header"> # in shopping carts</f:facet>
+                        <h:outputText value="#{entry.numbers.numberInCarts}" />
+                    </h:column>              
+                    
+            
+                    <h:column>
+                        <f:facet name="header"> # in unprocessed orders</f:facet>
+                        <h:outputText value="#{entry.numbers.numberInUnprocessedOrders}" />
+                    </h:column>   
+            
+                    <h:column>
+                        <f:facet name="header"> # available in store</f:facet>
+                        <h:outputText value="#{entry.numbers.numberAvailable}" />
+                    </h:column>   
+                        
+                    <h:column rendered="#{logIn.isInRole('MANAGER')}">
+                         <h:link includeViewParams="true" outcome="/InsideAccount/Manager/ManageStoreProducts.xhtml?id=#{entry.productID}&amp;type=#{entry.productType}" value="View or modify"/>
+                    </h:column>
+                 
+           </h:dataTable> 
+          <br/>
+       
+          
+        <ui:include src="ProductsPager.xhtml"/> <br/>
+        
+        <ui:debug/>
+        </ui:composition>
+    </h:body>
+</html>
+

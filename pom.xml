@@ -21,8 +21,8 @@
         </plugins>
     </build>
     <modules>
-    <module>onlinestore-app-ejb</module>
     <module>onlinestore-app-initialize</module>
+    <module>onlinestore-app-ejb</module>
     <module>onlinestore-app-war</module>
     <module>onlinestore-app-ear</module>
     <module>onlinestore-app-admin</module>

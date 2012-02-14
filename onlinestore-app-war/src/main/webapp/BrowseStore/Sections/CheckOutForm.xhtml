@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:ui="http://java.sun.com/jsf/facelets">
+           
+<h:head>
+    <title>Facelets page</title>
+</h:head>
+<h:body>
+<ui:composition>
+<h:form>
+    <f:event type="postAddToView" listener="#{checkOut.checkOutPageListener}"/>
+    
+    <hr/>
+    <h:panelGroup rendered="#{!logIn.isLoggedIn()}">
+    Enter customer information (
+    <h:link outcome="/LogIn/LogIn.xhtml" value="Log in"/>
+    to use information saved in your account
+    )<br/><br/>    
+        
+    </h:panelGroup>
+    
+    <h:panelGroup rendered="#{logIn.isLoggedIn()}">
+    Verify customer information <br/><br/>    
+        
+    </h:panelGroup>
+    
+    <h:messages layout="table" style="color:red"/>                         
+    <h:panelGrid  columns="2" >               
+ 
+        <h:outputText value ="E-mail" />
+        <h:inputText value ="#{cartBeanSession.cartStateful.ui.email}" id="email" label="E-mail" 
+            required="true" validator = "#{validator.emailValidate}"/> 
+
+
+        <h:outputText  value="First Name"/> 
+        <h:inputText label="First Name" required="true" value ="#{cartBeanSession.cartStateful.ui.firstName}"/>                  
+
+        <h:outputText value ="Last Name"/> 
+        <h:inputText label="Last Name" required="true" value ="#{cartBeanSession.cartStateful.ui.lastName}"/>
+
+        <h:outputText value ="Shipping address"/>
+        <p/>               
+
+        <h:outputText value ="&nbsp;&nbsp;Street"/>
+        <h:inputText label="Street" required="true" value="#{cartBeanSession.cartStateful.ui.shippingAddress.street}"/> 
+
+        <h:outputText value ="&nbsp;&nbsp;City"/> 
+        <h:inputText label="City" required="true" value ="#{cartBeanSession.cartStateful.ui.shippingAddress.city}"/> 
+
+        <h:outputText value ="&nbsp;&nbsp;State or province"/> 
+        <h:inputText label="State or province" required="true" value ="#{cartBeanSession.cartStateful.ui.shippingAddress.addressState}"/>
+
+        <h:outputText value ="&nbsp;&nbsp;ZIP or postal code"/>
+        <h:inputText label="ZIP or postal code" required="true" value="#{cartBeanSession.cartStateful.ui.shippingAddress.zip}"/>   
+
+        <h:outputText value ="&nbsp;&nbsp;Country"/>
+        <h:inputText label="Country" required="true" value ="#{cartBeanSession.cartStateful.ui.shippingAddress.country}"/>   
+
+        <h:outputText value ="&nbsp;&nbsp;Phone"/>
+        <h:inputText label="Phone" required="true" value="#{cartBeanSession.cartStateful.ui.shippingAddress.phone}"/>   
+
+        <h:outputText value ="Credit card"/>
+        <h:panelGroup>
+            <h:selectOneMenu  value="#{cartBeanSession.cartStateful.ui.cardType}" >
+                <f:selectItem itemValue="MasterCard" />
+                <f:selectItem itemValue="Visa" />
+                <f:selectItem itemValue="American Express" />
+                <f:selectItem itemValue="Discover" />   
+            </h:selectOneMenu>
+            &nbsp; Expiration date
+            <h:selectOneMenu id="cardMonth" value="#{checkOut.cardMonth}">
+                <f:selectItems value="#{acctCreation.months()}" />               
+            </h:selectOneMenu>
+            <h:selectOneMenu   id ="cardYear" value="#{checkOut.cardYear}">
+                <f:selectItems value="#{acctCreation.years()}" />   
+            </h:selectOneMenu>                 
+        </h:panelGroup>
+
+        <h:outputText value ="Card number"/>
+        <h:panelGroup>
+            <h:inputText required="true" label="Card number" id="cardNumber" value="#{cartBeanSession.cartStateful.ui.cardNumber}"
+              validator="#{validator.numberValidate}"/> 
+            <h:inputHidden id="datecheck" 
+               validator="#{validator.expirationValidate}" value="datecheck"/>
+        </h:panelGroup>
+
+        <h:outputText value ="Billing address"/>
+        <h:panelGroup>
+            Same as shipping &nbsp;
+            <h:selectBooleanCheckbox id="sameAsShipping" value="#{cartBeanSession.cartStateful.ui.sameAsShipping}"/>
+        </h:panelGroup>
+
+        <h:outputText  value ="&nbsp;&nbsp;Street"/>
+        <h:inputText id="billingStreet" value ="#{cartBeanSession.cartStateful.ui.billingAddress.street}"/> 
+
+        <h:outputText value ="&nbsp;&nbsp;City"/> 
+        <h:inputText id ="billingCity" value ="#{cartBeanSession.cartStateful.ui.billingAddress.city}"/> 
+
+        <h:outputText value ="&nbsp;&nbsp;State or province"/> 
+        <h:inputText id="billingState" value ="#{cartBeanSession.cartStateful.ui.billingAddress.addressState}"/> 
+
+        <h:outputText value ="&nbsp;&nbsp;ZIP or postal code"/>
+        <h:inputText id="billingZIP" value ="#{cartBeanSession.cartStateful.ui.billingAddress.zip}"/>   
+
+        <h:outputText value ="&nbsp;&nbsp;Country"/>
+        <h:inputText id="billingCountry" value ="#{cartBeanSession.cartStateful.ui.billingAddress.country}"/>   
+
+        <h:outputText value ="&nbsp;&nbsp;Phone"/>
+        
+        <h:panelGroup>
+        <h:inputText id ="billingPhone" value ="#{cartBeanSession.cartStateful.ui.billingAddress.phone}"/>  
+        <h:inputHidden id="billingAddrCheck" 
+               validator="#{validator.billingAddrValidate}" value="billingcheck"/>
+        </h:panelGroup>
+        <p/>
+        <h:panelGroup>
+            <h:commandButton value ="Submit Order" action="#{checkOut.checkOutAction}"/> 
+            &nbsp;&nbsp;
+           
+             <h:commandButton value="Modify order" action="/BrowseStore/ViewCart.xhtml?faces-redirect=true"/>                    
+            &nbsp;&nbsp;
+            <h:commandButton immediate="true" value ="Cancel order" action="#{cartBeanRequest.emptyCartAction}"/>
+            
+            
+        </h:panelGroup>
+             
+    </h:panelGrid> 
+</h:form>
+</ui:composition>
+</h:body>
+</html>
+

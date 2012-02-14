@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      >
+    
+        <h:head>
+        <title>Results table</title>
+    </h:head>
+       <h:body>
+         <ui:composition> 
+             
+             <h:form style="display:inline;margin-left:3em">
+               <h:inputText id="search" value="#{browseStore.searchString}" ></h:inputText>
+                 <h:commandButton value="Search CDs" action="#{browseStore.redirectToSelf}"/>
+                 <h:commandButton value="Clear search" action="#{browseStore.redirectToSelf}" actionListener="#{browseStore.clearSearch}"/>
+           </h:form>
+            <br/><br/>
+         
+        <h:form> 
+            Items per page:
+            <h:selectOneMenu id="ipp" value="#{browseStore.pager.ipp}" >
+                <f:selectItem itemValue="1" />
+                <f:selectItem itemValue="2" />
+                <f:selectItem itemValue="5" />   
+                <f:selectItem itemValue="10" />
+                <f:selectItem itemValue="20" />
+            </h:selectOneMenu>
+             
+            Sort by: 
+            <h:selectOneMenu id="sortBy" value = "#{browseStore.sortBy}">
+                <f:selectItem itemValue="artist" itemLabel="Artist" />
+                <f:selectItem itemValue="title" itemLabel="Title"/>
+                <f:selectItem itemValue="price" itemLabel="Price"/>                    
+            </h:selectOneMenu> 
+             <h:selectOneMenu id="sortDir" value ="#{browseStore.sortDir}">
+                <f:selectItem itemValue="ASC" itemLabel="Ascending"/>
+                <f:selectItem itemValue ="DESC" itemLabel="Descending"/>
+            </h:selectOneMenu>
+                  
+        <h:commandButton type="submit"  value="Update" actionListener="#{browseStore.resetFirstItem}" action="#{browseStore.redirectToSelf}"/>    
+        </h:form>
+        <br/><br/>
+             <ui:include src="Pager.xhtml"/> <br/><br/>
+             
+        <f:event type="preRenderView" listener="#{browseStore.queryAll}"/> 
+             <f:attribute name="productType" value="CD"/>
+       
+             
+             
+       <ui:repeat value="#{browseStore.products}" var="row" >  
+            <div style="float:left">
+            <b>Artist:</b> #{row.artist}<br/>
+            <b>Title:</b> #{row.title}<br/>
+            <b>Price:</b> $#{row.price}<br/>
+            <b>Availability:</b> #{row.numbers.numberAvailable} left<br/>
+            <h:link includeViewParams="true" outcome="/BrowseStore/CD_Details.xhtml?id=#{row.productID}" value="View details / Order"/>
+            </div>
+            
+            <div style="float:right">
+            <img style="width:9em; margin-left:9em;" src="#{requestInfo.contextPath}/ImageServlet/#{row.image.imageID}"/>
+            </div>
+            <div style="clear:both"/>
+            <hr/>
+          
+        </ui:repeat>    
+        
+             <ui:include src="Pager.xhtml"/> <br/>
+
+        
+        </ui:composition>
+    </h:body>
+</html>
+

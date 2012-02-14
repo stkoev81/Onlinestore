@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+    <title>Facelet Title</title>
+</h:head>
+    <h:body>
+        <ui:composition template="/templates/baseLayout.xhtml">
+                        
+            <ui:define name="pageTitle">
+                Added to cart
+            </ui:define>    
+            
+            <ui:define name="content">   
+                Item was added to your cart. <br/>
+                <h:link  value ="View cart/Check out" outcome="/BrowseStore/ViewCart.xtml"/> <br/>
+                <h:link value ="Back to shopping" outcome="#{cartBeanRequest.shoppingPageURL}"/>
+                
+               
+                
+                
+            </ui:define>
+             <ui:define name="sidebar">               
+                <ui:include src="/LogIn/Sections/Sidebar.xhtml"/>
+            </ui:define>
+            
+        </ui:composition>
+    </h:body>
+</html>
+

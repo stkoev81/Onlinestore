@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<!-- =========== FULL CONFIGURATION FILE ================================== -->
+
+<faces-config version="2.0"
+    xmlns="http://java.sun.com/xml/ns/javaee" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd">
+<application>
+     
+     <!--
+     <locale-config>
+         <default-locale>en</default-locale>         
+      </locale-config>
+      -->
+      
+      <resource-bundle>
+         <base-name>com.skoev.onlinestore.web.msg</base-name>
+         <var>msgs</var>
+      </resource-bundle>
+      
+      <message-bundle>com.skoev.onlinestore.web.errors</message-bundle>    
+      
+   </application>
+   
+    <navigation-rule>
+        <from-view-id>/AccountCreation/CreateAccount.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>clearForm</from-outcome>
+            <to-view-id>/AccountCreation/CreateAccount.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>        
+    <from-view-id>/AccountCreation/CreateAccount.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>cancel</from-outcome>
+            <to-view-id>/LogIn/LogIn.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+    </navigation-rule>
+    
+       <navigation-rule>        
+    <from-view-id>/InsideAccount/ChangeAccount.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>cancel</from-outcome>
+            <to-view-id>/InsideAccount/Home.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+    </navigation-rule>
+    
+    
+
+
+    
+   
+</faces-config>

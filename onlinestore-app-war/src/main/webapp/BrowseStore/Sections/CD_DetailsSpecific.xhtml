@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      >
+    
+           
+        <h:head>
+        <title>Results table</title>
+    </h:head>
+       <h:body>
+         <ui:composition>     
+        <br/> <br/>
+        
+        <f:event type="preRenderView" listener="#{browseStore.querySingle}"/>   
+          
+          <h:link value="Back to CDs" outcome="/BrowseStore/BrowseCDs.xhtml" includeViewParams="true"/>   <br/>      
+          
+          <div style="float:right">
+            <img style="width:15em; margin-left:3em;" src="#{requestInfo.contextPath}/ImageServlet/#{browseStore.singleProduct.image.imageID}"/>
+            </div>
+          
+            <div>
+            <b>Artist:</b> #{browseStore.singleProduct.artist}<br/>
+            <b>Title:</b> #{browseStore.singleProduct.title}<br/>
+            <b>Price:</b> $#{browseStore.singleProduct.price}<br/>
+            <b>Availability:</b> #{browseStore.singleProduct.numbers.numberAvailable} left<br/><br/>
+             <h:form style="display:inline;"> 
+                <h:inputHidden value ="#{cartBeanRequest.shoppingPageURL}" />
+                <h:inputHidden value="#{cartBeanRequest.productID}"/>
+                <h:commandButton value="Add to cart" action="#{cartBeanRequest.addToCartAction}" />      
+           </h:form>
+            <br/><br/>
+            <b>Biography:</b> <br/>
+            #{browseStore.singleProduct.biography}
+            
+            </div>
+        
+        </ui:composition>
+    </h:body>
+</html>
+

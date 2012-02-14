@@ -1,0 +1,140 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+    <title>Facelet Title</title>
+</h:head>
+    <h:body>
+        <ui:composition template="/templates/baseLayout.xhtml">
+                        
+            <ui:define name="pageTitle">
+                Order details
+            </ui:define>    
+            
+            <ui:define name="content">   
+                <b>Showing order details</b> &nbsp; 
+                <h:form>
+                <h:commandButton value="Back to orders" action="/InsideAccount/OrderHistory.xhtml"/>
+                </h:form>
+                <br/><br/>
+                Order ID number: <b> #{orderHistory.singleOrder.id} </b> <br/>
+                Placed on: #{orderHistory.singleOrder.orderDateFormatted} <br/>
+                Order status: #{orderHistory.singleOrder.currentStatus}
+                
+                <br/>
+                <hr/>
+                Order summary: <br/>
+                  <h:dataTable value="#{orderHistory.singleOrder.orderLines}" var="entry" cellpadding="10">
+                    <h:column>
+                        <f:facet name="header">Product name</f:facet>
+                        <h:outputText value="#{entry.product.name}" />
+                        <f:facet name="footer"><b>ORDER TOTAL</b></f:facet>
+                    </h:column>                     
+                    <h:column>
+                        <f:facet name="header">Quantity</f:facet>
+                        <h:outputText   value="#{entry.number}" style="width:2em"/>
+                        
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Price</f:facet>
+                        $#{entry.product.price}
+                        <f:facet name="footer"> $#{orderHistory.singleOrder.totalCost}</f:facet>
+                    </h:column>
+
+                    <br/><br/>                      
+                        
+               </h:dataTable>
+                <hr/>
+               Customer information: 
+               
+                <h:panelGrid  columns="2" >               
+ 
+        <h:outputText value ="E-mail" />
+        <h:outputText value ="#{orderHistory.singleOrder.ui.email}" /> 
+
+
+        <h:outputText  value="First Name"/> 
+        <h:outputText value ="#{orderHistory.singleOrder.ui.firstName}"/>                  
+
+        <h:outputText value ="Last Name"/> 
+        <h:outputText value ="#{orderHistory.singleOrder.ui.lastName}"/>
+
+        <h:outputText value ="Shipping address"/>
+        <p/>               
+
+        <h:outputText value ="&nbsp;&nbsp;Street"/>
+        <h:outputText  value="#{orderHistory.singleOrder.ui.shippingAddress.street}"/> 
+
+        <h:outputText value ="&nbsp;&nbsp;City"/> 
+        <h:outputText  value ="#{orderHistory.singleOrder.ui.shippingAddress.city}"/> 
+
+        <h:outputText value ="&nbsp;&nbsp;State or province"/> 
+        <h:outputText  value ="#{orderHistory.singleOrder.ui.shippingAddress.addressState}"/>
+
+        <h:outputText value ="&nbsp;&nbsp;ZIP or postal code&nbsp;&nbsp;"/>
+        <h:outputText value="#{orderHistory.singleOrder.ui.shippingAddress.zip}"/>   
+
+        <h:outputText value ="&nbsp;&nbsp;Country"/>
+        <h:outputText value ="#{orderHistory.singleOrder.ui.shippingAddress.country}"/>   
+
+        <h:outputText value ="&nbsp;&nbsp;Phone"/>
+        <h:outputText value="#{orderHistory.singleOrder.ui.shippingAddress.phone}"/>   
+
+        <h:outputText value ="Credit card"/>
+        <h:panelGroup>
+            <h:outputText  value="#{orderHistory.singleOrder.ui.cardType}"/>
+            &nbsp; expires &nbsp;
+            <h:outputText  value="#{orderHistory.singleOrder.ui.cardMonth}"/>/
+            <h:outputText  value="#{orderHistory.singleOrder.ui.cardYear}"/>
+        </h:panelGroup>
+
+        <h:outputText value ="Card number"/>
+        <h:panelGroup>
+            <h:outputText  id="cardNumber" value="#{orderHistory.singleOrder.ui.cardNumber}"
+            /> 
+        </h:panelGroup>
+
+        <h:outputText value = "Billing address"/>
+        <h:outputText value = "Same as shipping" rendered="#{orderHistory.singleOrder.ui.sameAsShipping}"/>
+        </h:panelGrid>
+        
+               
+        <h:panelGrid columns="2" rendered="#{!orderHistory.singleOrder.ui.sameAsShipping}">       
+        
+
+        <h:outputText  value ="&nbsp;&nbsp;Street"/>
+        <h:outputText  value ="#{orderHistory.singleOrder.ui.billingAddress.street}"/> 
+
+        <h:outputText value ="&nbsp;&nbsp;City"/> 
+        <h:outputText value ="#{orderHistory.singleOrder.ui.billingAddress.city}"/> 
+
+        <h:outputText value ="&nbsp;&nbsp;State or province"/> 
+        <h:outputText  value ="#{orderHistory.singleOrder.ui.billingAddress.addressState}"/> 
+
+        <h:outputText value ="&nbsp;&nbsp;ZIP or postal code&nbsp;&nbsp;"/>
+        <h:outputText  value ="#{orderHistory.singleOrder.ui.billingAddress.zip}"/>   
+
+        <h:outputText value ="&nbsp;&nbsp;Country"/>
+        <h:outputText  value ="#{orderHistory.singleOrder.ui.billingAddress.country}"/>   
+
+        <h:outputText value ="&nbsp;&nbsp;Phone"/>
+        
+        
+        <h:outputText  value ="#{orderHistory.singleOrder.ui.billingAddress.phone}"/>  
+        
+        
+        <p/>
+    </h:panelGrid> 
+            </ui:define>
+             <ui:define name="sidebar">               
+                <ui:include src="/LogIn/Sections/Sidebar.xhtml"/>
+            </ui:define>
+            
+        </ui:composition>
+    </h:body>
+</html>
+

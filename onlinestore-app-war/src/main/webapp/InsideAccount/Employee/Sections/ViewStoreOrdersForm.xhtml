@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      >
+    
+           
+        <h:head>
+        <title>Results table</title>
+    </h:head>
+       <h:body>
+           
+         <ui:composition> 
+             <script type="text/javascript">
+function displaymessage()
+{
+document.getElementById("searchTip").style.display = "block"; 
+
+}
+function hidemessage()
+{
+document.getElementById("searchTip").style.display="none";
+
+}
+</script>
+             <h:form style="display:inline;margin-left:3em">
+               <h:inputText id="search" value="#{viewStoreOrders.searchString}" onfocus="displaymessage()" onblur="hidemessage()" ></h:inputText>
+                 <h:commandButton value="Search orders" action="#{viewStoreOrders.redirectToSelf}"/> 
+                 <h:commandButton value="Clear search" action="#{viewStoreOrders.redirectToSelf}" actionListener="#{viewStoreOrders.clearSearch}"/>
+           </h:form>
+             <br/>
+             <div>
+             <div id="searchTip" class="messageBox">
+                 Search is case-insensitive. Exact matches only will be shown. <br/><br/>
+                 This will search for: <br/>
+                 - order id  <br/>
+                 - last modified by <br/>
+                 - current status <br/>
+             </div>
+             </div>
+              
+        <br/>
+        <h:form>             
+            Items per page: 
+            <h:selectOneMenu id="ipp" value="#{viewStoreOrders.pager.ipp}" >
+               <f:selectItem itemValue="1" />
+                <f:selectItem itemValue="2" />
+                <f:selectItem itemValue="5" />   
+                <f:selectItem itemValue="10" />
+                <f:selectItem itemValue="20" />
+            </h:selectOneMenu>
+            
+            Sort by:
+             <h:selectOneMenu id="sortBy" value = "#{viewStoreOrders.sortBy}">
+                <f:selectItem itemValue="id" itemLabel="Order ID" />
+                <f:selectItem itemValue="currentStatus" itemLabel="status"/>
+                <f:selectItem itemValue="lastActor" itemLabel="Last actor"/>                    
+                <f:selectItem itemValue="orderDate" itemLabel="Order date"/>                    
+                <f:selectItem itemValue="lastModified" itemLabel="Last modified date"/>                    
+                <f:selectItem itemValue="totalCost" itemLabel="Total cost"/>                    
+            </h:selectOneMenu>  
+             <h:selectOneMenu id="sortDir" value ="#{viewStoreOrders.sortDir}">
+                <f:selectItem itemValue="ASC" itemLabel="Ascending"/>
+                <f:selectItem itemValue ="DESC" itemLabel="Descending"/>
+            </h:selectOneMenu>
+            
+        <h:commandButton type="submit" value="Update" actionListener="#{viewStoreOrders.resetFirstItem}" action="#{viewStoreOrders.redirectToSelf}"/>    
+        </h:form>
+        <br/><br/>
+        <ui:include src="OrdersPager.xhtml"/> <br/><br/>
+        
+          
+                  
+         <h:dataTable value="#{viewStoreOrders.orders}" var="entry" styleClass="storeOrdersTable">
+                    <h:column>
+                        <f:facet name="header">Order date</f:facet>
+                        <h:outputText value="#{entry.orderDateFormatted}" />
+                    </h:column>                
+                    <h:column>
+                        <f:facet name="header">ID</f:facet>
+                        <h:outputText value="#{entry.id}" />
+                    </h:column>  
+                    <h:column>
+                        <f:facet name="header">Total cost</f:facet>
+                        $<h:outputText value="#{entry.totalCost}" />
+                    </h:column>  
+                    <h:column>
+                        <f:facet name="header">Last modified date</f:facet>
+                        <h:outputText value="#{entry.lastModifiedFormatted}" />
+                    </h:column>               
+                     <h:column>
+                        <f:facet name="header">Last modified by</f:facet>
+                        <h:outputText value="#{entry.lastActor}" />
+                    </h:column>  
+                    <h:column>
+                        <f:facet name="header">Current status</f:facet>
+                        <h:outputText value="#{entry.currentStatus}" />
+                    </h:column>  
+                    <h:column>
+                        <f:facet name="header">Next action required</f:facet>
+                        <h:outputText value="#{entry.nextActionRequired}" />
+                    </h:column>  
+                    <h:column>
+                        <f:facet name="header">Group responsible for next action</f:facet>
+                        <h:outputText value="#{entry.nextActorTypeRequired}" />
+                    </h:column>  
+                    <h:column>
+                         <h:link includeViewParams="true" outcome="/InsideAccount/Employee/ManageStoreOrders.xhtml?id=#{entry.id}" value="View or modify"/>
+                    </h:column>
+                 
+           </h:dataTable> 
+          <br/>
+       
+          
+        <ui:include src="OrdersPager.xhtml"/> <br/>
+        
+        <ui:debug/>
+        </ui:composition>
+    </h:body>
+</html>
+

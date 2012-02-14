@@ -1,0 +1,141 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:ui="http://java.sun.com/jsf/facelets">
+           
+<h:head>
+    <title>Facelets page</title>
+</h:head>
+<h:body>
+<ui:composition>
+<h:form>
+    <f:event type="postAddToView" listener="#{acctCreation.newUser}"/>
+    <h1> Create an account </h1>
+    <div style="color:blue">
+    You can only create a "customer" account here. To check out the "employee" side of the 
+    application, you can log in with one of the demo accounts (some functionality limited to read only)
+    or email me, and I'll create a fully functional "employee" account for you.    <br/>
+    </div>
+    <h:outputText value="&nbsp;*Required fields"/> <p/>           
+    <h:messages layout="table" style="color:red"/>                         
+    <h:panelGrid  columns="2" >                   
+        <h:outputText value ="*Username (up to 15 characters)"/>
+        <h:inputText value ="#{acctCreation.user.username}" id="username" 
+            label="Username" required="true"  
+            validator="#{validator.usernameAvailable}">
+                <f:validateLength maximum ="15"/>
+        </h:inputText>
+
+        <h:outputText value ="*Password (4 to 15 characters)"/>
+        <h:inputSecret value ="#{acctCreation.user.passwd}" id="password" 
+            label="Password" required="true" redisplay="true" > 
+            <f:validateLength minimum ="4" maximum ="15"/>
+        </h:inputSecret>
+
+        <h:outputText value ="*Password re-enter"/>
+        <h:panelGroup>
+        <h:inputSecret id="password2" label="Password re-enter" required="true"
+                       redisplay="true"/>                        
+        <h:inputHidden id="passwordCheck" 
+               validator="#{validator.passwordValidate}" value="passwordCheck"/>
+         </h:panelGroup>
+
+        <h:outputText value ="*E-mail" />
+        <h:inputText value ="#{acctCreation.user.ui.email}" id="email" label="E-mail" 
+            required="true" validator = "#{validator.emailValidate}"/> 
+
+
+        <h:outputText value="First Name"/> 
+        <h:inputText value ="#{acctCreation.user.ui.firstName}"/>                  
+
+        <h:outputText value ="Last Name"/> 
+        <h:inputText value ="#{acctCreation.user.ui.lastName}"/>
+
+        <h:outputText value ="Shipping address"/>
+        <p/>               
+
+        <h:outputText value ="&nbsp;&nbsp;Street"/>
+        <h:inputText value ="#{acctCreation.user.ui.shippingAddress.street}"/> 
+
+        <h:outputText value ="&nbsp;&nbsp;City"/> 
+        <h:inputText value ="#{acctCreation.user.ui.shippingAddress.city}"/> 
+
+        <h:outputText value ="&nbsp;&nbsp;State or province"/> 
+        <h:inputText value ="#{acctCreation.user.ui.shippingAddress.addressState}"/>
+
+        <h:outputText value ="&nbsp;&nbsp;ZIP or postal code"/>
+        <h:inputText value ="#{acctCreation.user.ui.shippingAddress.zip}"/>   
+
+        <h:outputText value ="&nbsp;&nbsp;Country"/>
+        <h:inputText value ="#{acctCreation.user.ui.shippingAddress.country}"/>   
+
+        <h:outputText value ="&nbsp;&nbsp;Phone"/>
+        <h:inputText value ="#{acctCreation.user.ui.shippingAddress.phone}"/>   
+
+        <h:outputText value ="Credit card"/>
+        <h:panelGroup>
+            <h:selectOneMenu  value="#{acctCreation.cardType}" >
+                <f:selectItem itemValue="MasterCard" />
+                <f:selectItem itemValue="Visa" />
+                <f:selectItem itemValue="American Express" />
+                <f:selectItem itemValue="Discover" />   
+            </h:selectOneMenu>
+            &nbsp; Expiration date
+            <h:selectOneMenu id="cardMonth" value="#{acctCreation.cardMonth}">
+                <f:selectItems value="#{acctCreation.months()}" />               
+            </h:selectOneMenu>
+            <h:selectOneMenu   id ="cardYear" value="#{acctCreation.cardYear}">
+                <f:selectItems value="#{acctCreation.years()}" />   
+            </h:selectOneMenu>                 
+        </h:panelGroup>
+
+        <h:outputText value ="Card number"/>
+        <h:panelGroup>
+            <h:inputText id="cardNumber" value="#{acctCreation.cardNumber}"
+              validator="#{validator.numberValidate}"/> 
+            <h:inputHidden id="datecheck" 
+               validator="#{validator.expirationValidate}" value="datecheck"/>
+        </h:panelGroup>
+
+        <h:outputText value ="Billing address"/>
+        <h:panelGroup>
+            Same as shipping &nbsp;
+            <h:selectBooleanCheckbox value="#{acctCreation.user.ui.sameAsShipping}"/>
+        </h:panelGroup>
+
+        <h:outputText value ="&nbsp;&nbsp;Street"/>
+        <h:inputText value ="#{acctCreation.user.ui.billingAddress.street}"/> 
+
+        <h:outputText value ="&nbsp;&nbsp;City"/> 
+        <h:inputText value ="#{acctCreation.user.ui.billingAddress.city}"/> 
+
+        <h:outputText value ="&nbsp;&nbsp;State or province"/> 
+        <h:inputText value ="#{acctCreation.user.ui.billingAddress.addressState}"/> 
+
+        <h:outputText value ="&nbsp;&nbsp;ZIP or postal code"/>
+        <h:inputText value ="#{acctCreation.user.ui.billingAddress.zip}"/>   
+
+        <h:outputText value ="&nbsp;&nbsp;Country"/>
+        <h:inputText value ="#{acctCreation.user.ui.billingAddress.country}"/>   
+
+        <h:outputText value ="&nbsp;&nbsp;Phone"/>
+        <h:inputText value ="#{acctCreation.user.ui.billingAddress.phone}"/>   
+
+        <p/>
+        <h:panelGroup>
+            <h:commandButton value ="Submit" action="#{acctCreation.createNewAccount}"/> 
+            &nbsp;&nbsp;
+            <h:commandButton immediate="true" value ="Clear form"
+                 action="clearForm"/> 
+            &nbsp;&nbsp;
+            <h:commandButton immediate="true" value ="Cancel" action="cancel"/>
+        </h:panelGroup>
+             
+    </h:panelGrid> 
+</h:form>
+</ui:composition>
+</h:body>
+</html>
+

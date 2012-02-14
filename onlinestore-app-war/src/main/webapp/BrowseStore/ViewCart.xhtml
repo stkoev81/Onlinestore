@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+    <title>Facelet Title</title>
+</h:head>
+    <h:body>
+        <ui:composition template="/templates/baseLayout.xhtml">
+                        
+            <ui:define name="pageTitle">
+                Shopping cart
+            </ui:define>    
+            
+            <ui:define name="content">   
+                
+                
+                
+                <h1>Cart contents</h1>
+                <br/><br/>
+                
+                <h:panelGroup rendered="#{cartBeanRequest.isCartEmpty()}">  
+                    The shopping cart is empty. Go to
+                    <h:link value=" shopping" outcome="/BrowseStore/BrowseBooks.xhmtl"/>
+                                                                        
+                    
+                     
+                </h:panelGroup>
+                
+                <h:panelGroup rendered="#{!cartBeanRequest.isCartEmpty()}">    
+                    <h:messages layout="table" style="color:red"/>                         
+                <h:form>
+                    <h:dataTable value="#{cartBeanSession.cartStateful.getCartProductList()}" var="entry" styleClass="storeOrdersTable">
+                    <h:column>
+                        <f:facet name="header">Product name</f:facet>
+                        <h:outputText value="#{entry.product.name}" />
+                    </h:column>                     
+                    <h:column>
+                        <f:facet name="header">Product ID</f:facet>
+                        <h:outputText value="#{entry.product.productID}" />
+                    </h:column>  
+                        <h:column>
+                        <f:facet name="header">Quantity</f:facet>
+                        <h:inputText  label="Product quantity" required="true"  value="#{entry.number}" style="width:2em"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Price</f:facet>
+                        $#{entry.product.price}
+                    </h:column>
+                
+               </h:dataTable>
+                    <br/>
+                    <h:commandButton value="Update cart" action="#{cartBeanRequest.updateCartAction}"/>
+                    <h:commandButton value="Empty cart" immediate="true" action="#{cartBeanRequest.emptyCartAction}"/>
+                    <h:commandButton value="Check out" immediate="true" action ="/BrowseStore/CheckOut.xhtml?faces-redirect=true"/>
+                </h:form>
+                </h:panelGroup>
+                
+                
+            </ui:define>
+             <ui:define name="sidebar">               
+                <ui:include src="/LogIn/Sections/Sidebar.xhtml"/>
+            </ui:define>
+            
+        </ui:composition>
+    </h:body>
+</html>
+

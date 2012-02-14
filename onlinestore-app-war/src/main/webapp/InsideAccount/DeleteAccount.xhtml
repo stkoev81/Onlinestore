@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+    <title>Facelet Title</title>
+</h:head>
+    <h:body>
+        <ui:composition template="/templates/baseLayout.xhtml">
+            
+            <ui:define name="pageTitle">
+                Delete account
+            </ui:define>       
+            <ui:define name="content">               
+                <h:form>
+                    
+                    <h:outputText value="Are you sure you want to delete your
+                                  account? You will not be able to log in again."/><br/>
+                    <h:commandButton value="Yes" action="#{insideAccount.deleteAccount}"/>
+                        <h:commandButton value="No" action="Home.xhtml?faces-redirect=true"/><br/>
+                        <h:messages layout="table" style="color:red"/>   
+                </h:form>
+                
+          
+             </ui:define>
+             <ui:define name="sidebar">               
+                <ui:include src="/LogIn/Sections/Sidebar.xhtml"/>
+            </ui:define>
+            
+        </ui:composition>
+    </h:body>
+</html>
+

@@ -1,0 +1,139 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+    <title>Facelet Title</title>
+</h:head>
+    <h:body>
+        <ui:composition template="/templates/baseLayout.xhtml">
+                        
+            <ui:define name="pageTitle">
+                Order confirmation
+            </ui:define>    
+            
+            <ui:define name="content">   
+                Your order has been placed <br/>
+                Order ID number: <b> #{cartBeanSession.cartStateful.order.id} </b> <br/>
+                <hr/>
+                Order summary: <br/>
+                  <h:dataTable value="#{cartBeanSession.cartStateful.order.orderLines}" var="entry" styleClass="storeOrdersTable">
+                    <h:column>
+                        <f:facet name="header">Product name</f:facet>
+                        <h:outputText value="#{entry.product.name}" />
+                        <f:facet name="footer"><b>ORDER TOTAL</b></f:facet>
+                    </h:column>                     
+                    <h:column>
+                        <f:facet name="header">Product ID</f:facet>
+                        <h:outputText value="#{entry.product.productID}" />
+                        
+                    </h:column>  
+                      
+                      
+                      <h:column>
+                        <f:facet name="header">Quantity</f:facet>
+                        <h:outputText   value="#{entry.number}" style="width:2em"/>
+                        
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Price</f:facet>
+                        $#{entry.product.price}
+                        <f:facet name="footer"> $#{cartBeanSession.cartStateful.order.totalCost}</f:facet>
+                    </h:column>
+
+                    <br/><br/>                      
+                        
+               </h:dataTable>
+                <hr/>
+               Customer information: 
+               
+                <h:panelGrid  columns="2" >               
+ 
+        <h:outputText value ="E-mail" />
+        <h:outputText value ="#{cartBeanSession.cartStateful.order.ui.email}" /> 
+
+
+        <h:outputText  value="First Name"/> 
+        <h:outputText value ="#{cartBeanSession.cartStateful.order.ui.firstName}"/>                  
+
+        <h:outputText value ="Last Name"/> 
+        <h:outputText value ="#{cartBeanSession.cartStateful.order.ui.lastName}"/>
+
+        <h:outputText value ="Shipping address"/>
+        <p/>               
+
+        <h:outputText value ="&nbsp;&nbsp;Street"/>
+        <h:outputText  value="#{cartBeanSession.cartStateful.order.ui.shippingAddress.street}"/> 
+
+        <h:outputText value ="&nbsp;&nbsp;City"/> 
+        <h:outputText  value ="#{cartBeanSession.cartStateful.order.ui.shippingAddress.city}"/> 
+
+        <h:outputText value ="&nbsp;&nbsp;State or province"/> 
+        <h:outputText  value ="#{cartBeanSession.cartStateful.order.ui.shippingAddress.addressState}"/>
+
+        <h:outputText value ="&nbsp;&nbsp;ZIP or postal code&nbsp;&nbsp;"/>
+        <h:outputText value="#{cartBeanSession.cartStateful.order.ui.shippingAddress.zip}"/>   
+
+        <h:outputText value ="&nbsp;&nbsp;Country"/>
+        <h:outputText value ="#{cartBeanSession.cartStateful.order.ui.shippingAddress.country}"/>   
+
+        <h:outputText value ="&nbsp;&nbsp;Phone"/>
+        <h:outputText value="#{cartBeanSession.cartStateful.order.ui.shippingAddress.phone}"/>   
+
+        <h:outputText value ="Credit card"/>
+        <h:panelGroup>
+            <h:outputText  value="#{cartBeanSession.cartStateful.order.ui.cardType}"/>
+            &nbsp; expires &nbsp;
+            <h:outputText  value="#{cartBeanSession.cartStateful.order.ui.cardMonth}"/>/
+            <h:outputText  value="#{cartBeanSession.cartStateful.order.ui.cardYear}"/>
+        </h:panelGroup>
+
+        <h:outputText value ="Card number"/>
+        <h:panelGroup>
+            <h:outputText  id="cardNumber" value="#{cartBeanSession.cartStateful.order.ui.cardNumber}"
+            /> 
+        </h:panelGroup>
+
+        <h:outputText value = "Billing address"/>
+        <h:outputText value = "Same as shipping" rendered="#{cartBeanSession.cartStateful.order.ui.sameAsShipping}"/>
+        </h:panelGrid>
+        
+               
+        <h:panelGrid columns="2" rendered="#{!cartBeanSession.cartStateful.order.ui.sameAsShipping}">       
+        
+
+        <h:outputText  value ="&nbsp;&nbsp;Street"/>
+        <h:outputText  value ="#{cartBeanSession.cartStateful.order.ui.billingAddress.street}"/> 
+
+        <h:outputText value ="&nbsp;&nbsp;City"/> 
+        <h:outputText value ="#{cartBeanSession.cartStateful.order.ui.billingAddress.city}"/> 
+
+        <h:outputText value ="&nbsp;&nbsp;State or province"/> 
+        <h:outputText  value ="#{cartBeanSession.cartStateful.order.ui.billingAddress.addressState}"/> 
+
+        <h:outputText value ="&nbsp;&nbsp;ZIP or postal code&nbsp;&nbsp;"/>
+        <h:outputText  value ="#{cartBeanSession.cartStateful.order.ui.billingAddress.zip}"/>   
+
+        <h:outputText value ="&nbsp;&nbsp;Country"/>
+        <h:outputText  value ="#{cartBeanSession.cartStateful.order.ui.billingAddress.country}"/>   
+
+        <h:outputText value ="&nbsp;&nbsp;Phone"/>
+        
+        
+        <h:outputText  value ="#{cartBeanSession.cartStateful.order.ui.billingAddress.phone}"/>  
+        
+        
+        <p/>
+    </h:panelGrid> 
+            </ui:define>
+             <ui:define name="sidebar">               
+                <ui:include src="/LogIn/Sections/Sidebar.xhtml"/>
+            </ui:define>
+            
+        </ui:composition>
+    </h:body>
+</html>
+
