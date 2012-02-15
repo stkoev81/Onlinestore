@@ -47,6 +47,7 @@
             <artifactId>commons-codec</artifactId>
             <version>1.5</version>
             <scope>compile</scope>
+            <optional>true</optional>
         </dependency>
     
        <dependency>
@@ -54,6 +55,7 @@
           <artifactId>onlinestore-app-initialize</artifactId>
           <version>${project.version}</version>
           <scope>compile</scope>
+          <optional>true</optional>
         </dependency>
 
     </dependencies>
