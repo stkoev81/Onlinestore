@@ -51,7 +51,7 @@ public class TablesInitializer {
     private boolean initializeProducts(String dir, String filename) {
         File file = new File(dir, filename); 
         if (!file.exists()) return false;              
-        NodeList nodeList = xmlParser.getNodeList(file).getElementsByTagName( 
+        NodeList nodeList = xmlParser.parseFile(file).getElementsByTagName( 
                 "product"); 
         //loop through all product XML elements
         for (int i = 0; i < nodeList.getLength(); i++){           
@@ -150,7 +150,7 @@ public class TablesInitializer {
     private boolean initializeGroups(String dir, String filename) {
         File file = new File(dir, filename); 
         if (!file.exists()) return false;              
-        NodeList nodeList = xmlParser.getNodeList(file).getElementsByTagName(
+        NodeList nodeList = xmlParser.parseFile(file).getElementsByTagName(
                 "groupname"); 
         
         //loop through all groupname XML elements
@@ -177,7 +177,7 @@ public class TablesInitializer {
     private boolean initializeUsers(String dir, String filename) {
         File file = new File(dir, filename); 
         if (!file.exists()) return false;              
-        NodeList nodeList = xmlParser.getNodeList(file).getElementsByTagName(
+        NodeList nodeList = xmlParser.parseFile(file).getElementsByTagName(
                 "user"); 
         
         //loop through all user XML elements

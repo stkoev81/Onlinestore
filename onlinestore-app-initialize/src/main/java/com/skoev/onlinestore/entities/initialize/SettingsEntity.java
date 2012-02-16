@@ -54,9 +54,4 @@ public class SettingsEntity implements Serializable{
         this.notificationsOn = notificationsOn;
     }
     
-
-   
-    
-    
-    
 }

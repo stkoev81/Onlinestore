@@ -55,7 +55,7 @@ public class InsideAccount implements Serializable {
         HttpServletRequest request = getRequest();              
         demo=request.isUserInRole("DEMO"); 
         username = request.getUserPrincipal().getName();       
-        user = entityAccessor.getEntity(UserEntity.class, username); 
+        user = entityAccessor.findEntity(UserEntity.class, username); 
         List<GroupEntity> geList = user.getGroupMemberships(); 
         for (GroupEntity ge:geList){
           groups.add(ge.getGroupname()); 

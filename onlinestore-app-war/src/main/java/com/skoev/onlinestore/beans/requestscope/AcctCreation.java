@@ -70,7 +70,7 @@ public class AcctCreation {
                .getCurrentInstance().getExternalContext().getRequest();
          String username=request.getUserPrincipal().getName();
          
-         user=entityAccessor.getEntity(UserEntity.class, username); 
+         user=entityAccessor.findEntity(UserEntity.class, username); 
          Calendar cal = Calendar.getInstance();
          Date date = user.getUi().getCardExpirationDate();
          if (date!=null){
@@ -92,7 +92,7 @@ public class AcctCreation {
          * @return 
          */
     public boolean usernameAvailable(String username){       
-       if (entityAccessor.getEntity(UserEntity.class, username) == null ) 
+       if (entityAccessor.findEntity(UserEntity.class, username) == null ) 
           return true; 
        else
           return false;

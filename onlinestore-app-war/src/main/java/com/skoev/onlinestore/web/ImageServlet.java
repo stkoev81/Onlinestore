@@ -40,7 +40,7 @@ public class ImageServlet extends HttpServlet {
         // handle exceptions
         Long imageID = Long.valueOf(request.getPathInfo().substring(1)); 
         
-        ImageEntity imageEntity = entityAccessor.getEntity(ImageEntity.class
+        ImageEntity imageEntity = entityAccessor.findEntity(ImageEntity.class
                 , imageID); 
         response.setContentType(getServletContext().getMimeType(imageEntity.getFileName()));
         response.setContentLength( imageEntity.getFileLength().intValue()); 

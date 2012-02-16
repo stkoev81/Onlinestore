@@ -53,7 +53,7 @@ public class AcctActivation {
            return failure; 
        }
        
-       UserEntity user = entityAccessor.getEntity(UserEntity.class,username); 
+       UserEntity user = entityAccessor.findEntity(UserEntity.class,username); 
        
        if(user==null){
            return expired; 

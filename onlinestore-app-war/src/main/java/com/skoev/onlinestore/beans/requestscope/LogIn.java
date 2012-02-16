@@ -127,7 +127,7 @@ public class LogIn implements Serializable {
      */
     public String logIn(){
         FacesMessage message = null; 
-        UserEntity user = entityAccessor.getEntity(UserEntity.class,username); 
+        UserEntity user = entityAccessor.findEntity(UserEntity.class,username); 
         if (user==null){
             message = new FacesMessage("Error! This username doesn't exist."); 
         }

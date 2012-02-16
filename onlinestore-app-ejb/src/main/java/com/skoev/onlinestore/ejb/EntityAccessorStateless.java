@@ -42,18 +42,18 @@ public class EntityAccessorStateless {
         em.merge(entity);
     }
 
-    public <T> T getEntity(Class<T> entityClass, Object primaryKey){
+    public <T> T findEntity(Class<T> entityClass, Object primaryKey){
         T entity = em.find(entityClass, primaryKey); 
         return entity; 
     }
 
-    public <T> void deleteEntity(Class<T> entityClass, Object primaryKey){
+    public <T> void findAndDeleteEntity(Class<T> entityClass, Object primaryKey){
         T entity = em.find(entityClass, primaryKey); 
         if (entity!=null)
             em.remove(entity);                
     }
 
-    public void removeEntity(Object entity){
+    public void deleteEntity(Object entity){
         em.remove(em.merge(entity));
     }
     
@@ -74,6 +74,6 @@ public class EntityAccessorStateless {
            em.merge(o); 
        } 
        user.getUi().setHasUser(false);
-       removeEntity(user); 
+       deleteEntity(user); 
     }    
 }

@@ -76,7 +76,7 @@ public class BrowseStore {
    
    //preRenderVew listner for the loading a single component from the database 
    public void querySingle(ComponentSystemEvent event){
-        singleProduct = entityAccessor.getEntity(ProductEntity.class, singleProductID); 
+        singleProduct = entityAccessor.findEntity(ProductEntity.class, singleProductID); 
         if (!singleProduct.getDisplayProductInStore()){
             FacesContext context = FacesContext.getCurrentInstance();
             ConfigurableNavigationHandler handler = (ConfigurableNavigationHandler)

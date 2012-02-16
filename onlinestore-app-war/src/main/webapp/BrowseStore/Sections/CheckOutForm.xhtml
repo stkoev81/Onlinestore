@@ -15,7 +15,7 @@
     
     <hr/>
     <h:panelGroup rendered="#{!logIn.isLoggedIn()}">
-    Enter customer information (
+    Enter customer information - all fields required (
     <h:link outcome="/LogIn/LogIn.xhtml" value="Log in"/>
     to use information saved in your account
     )<br/><br/>    
@@ -120,7 +120,7 @@
             <h:commandButton value ="Submit Order" action="#{checkOut.checkOutAction}"/> 
             &nbsp;&nbsp;
            
-             <h:commandButton value="Modify order" action="/BrowseStore/ViewCart.xhtml?faces-redirect=true"/>                    
+             <h:commandButton immediate="true" value="Modify order" action="/BrowseStore/ViewCart.xhtml?faces-redirect=true"/>                    
             &nbsp;&nbsp;
             <h:commandButton immediate="true" value ="Cancel order" action="#{cartBeanRequest.emptyCartAction}"/>
             

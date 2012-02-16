@@ -40,7 +40,7 @@ public class Menus {
         
         if(logIn.isLoggedIn()){
             sidebarMenu.add(new MenuLink("Log out","/LogIn/LogOut.xhtml",page));
-            sidebarMenu.add(new MenuLink("Your Account","/InsideAccount/Home.xhtml",page));
+            sidebarMenu.add(new MenuLink("Your actions","/InsideAccount/Home.xhtml",page));
                sidebarMenu.add(new MenuLink("Browse store","/BrowseStore/BrowseBooks.xhtml",page));             
              if (logIn.isInRole("CUSTOMER")){
                   sidebarMenu.add(new MenuLink("View cart","/BrowseStore/ViewCart.xhtml",page));

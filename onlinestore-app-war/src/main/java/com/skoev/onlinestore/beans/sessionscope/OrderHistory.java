@@ -46,7 +46,7 @@ public class OrderHistory implements Serializable{
   
     
     public synchronized String viewDetailsAction(){
-           singleOrder = entityAccessor.getEntity(OrderEntity.class, singleOrderID);
+           singleOrder = entityAccessor.findEntity(OrderEntity.class, singleOrderID);
         return "/InsideAccount/OrderDetails.xhtml";
     }
     
