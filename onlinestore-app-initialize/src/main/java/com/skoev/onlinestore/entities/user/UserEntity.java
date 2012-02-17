@@ -1,59 +1,90 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.skoev.onlinestore.entities.user;
-import com.skoev.onlinestore.entities.order.OrderEntity; 
 
+import com.skoev.onlinestore.entities.order.OrderEntity;
 import java.io.Serializable;
 import org.apache.commons.codec.digest.DigestUtils;
-import java.util.Date;
-import java.util.*; 
-import javax.persistence.*; 
-/**
- *
- * @author stephan
- */
-@Entity @Table(name="USERS")
-public class UserEntity implements Serializable {    
-    @Id     
-    @Column(name="USERNAME")
-    private String username;
-    @Column(name="PASSWD")
-    private String passwd; 
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date acctCreationDate;      
-    private String activationString;
-    private Boolean activated = false;
-    private Boolean disabled = false; 
+import java.util.*;
+import javax.persistence.*;
 
+/**
+ * This class represents a registered user in the online store.   
+ * For more information on user login credentials and access roles, see 
+ * {@link GroupEntity}. 
+ * 
+ * @see UserInfoEntity
+ * 
+ */
+@Entity
+@Table(name = "USERS")
+public class UserEntity implements Serializable {
+    /**
+     * The username is the unique ID for this entity.
+     */
+    @Id
+    @Column(name = "USERNAME")
+    private String username;
+    /**
+     * The password field is hashed by its setter using a SHA256Hex algorithm; 
+     * this ensures that the user's password remains secret even if someone has
+     * access to the database.
+     */
+    @Column(name = "PASSWD")    
+    private String passwd;
+    /**
+     * The date when the account was created.
+     */
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date acctCreationDate;
+    /**
+     * A randomly generated activation string that will be sent to the user in 
+     * an email once the account is created; the user must provide this activation
+     * string in order to activate his account. 
+     */
+    private String activationString;
+    /**
+     * Flag indicating if this account has been activated.
+     */
+    private Boolean activated = false;
+    /**
+     * Flag indicating if this account has been disabled, in which case the user
+     * should not be able to log in. The reason for this is that an administrator may 
+     * need to temporarily block access to some account without deleting it. 
+     */
+    private Boolean disabled = false;
     // unidirectional
-    @ManyToMany(fetch=FetchType.EAGER)
-    @JoinTable(name="USERS_GROUPS", joinColumns = @JoinColumn(name="USERNAME"), 
-            inverseJoinColumns = @JoinColumn(name="GROUPNAME"))
+    /**
+     * Groups of which this user is a a member (see {@link GroupEntity})
+     */ 
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "USERS_GROUPS", joinColumns =
+    @JoinColumn(name = "USERNAME"),
+    inverseJoinColumns =
+    @JoinColumn(name = "GROUPNAME"))
     private List<GroupEntity> groupMemberships;
-    
     //bidirectional
-    @OneToMany(fetch=FetchType.EAGER, mappedBy="customer")
+    /**
+     * The orders which this user has placed previously
+     */
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "customer")
     private List<OrderEntity> orderHistory;
-       
     //unidirectional
-    @OneToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST
-            , CascadeType.MERGE}) 
+    /**
+     * The contact and payment information that this user has saved in his account.
+     */
+    @OneToOne(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn
     private UserInfoEntity ui = new UserInfoEntity();
-    
-    
+
     {
         ui.setHasUser(true);
     }
-    
-   
+
     public void setPasswd(String passwd) {
-        if (passwd!=null)
+        if (passwd != null) {
             this.passwd = DigestUtils.sha256Hex(passwd);
-        else
+        } else {
             this.passwd = passwd;
+        }
     }
 
     public Date getAcctCreationDate() {
@@ -123,8 +154,4 @@ public class UserEntity implements Serializable {
     public void setDisabled(Boolean disabled) {
         this.disabled = disabled;
     }
-
-   
-    
-
 }

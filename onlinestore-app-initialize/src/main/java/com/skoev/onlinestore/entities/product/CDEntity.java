@@ -4,23 +4,18 @@
  */
 package com.skoev.onlinestore.entities.product;
 
-import java.math.BigDecimal;
-import java.util.*;
-import java.io.Serializable;
-import javax.persistence.*; 
+import javax.persistence.*;
 
 /**
- *
- * @author stephan
+ * This class represents a CD product in the online store. 
  */
-
 @Entity
 public class CDEntity extends ProductEntity {
-   
-   private String artist; 
-   private String title; 
-   @Column(length=2000)
-   private String biography;
+
+    private String artist;
+    private String title;
+    @Column(length = 2000)
+    private String biography;
 
     public String getArtist() {
         return artist;
@@ -45,6 +40,4 @@ public class CDEntity extends ProductEntity {
     public void setTitle(String title) {
         this.title = title;
     }
-
-
 }

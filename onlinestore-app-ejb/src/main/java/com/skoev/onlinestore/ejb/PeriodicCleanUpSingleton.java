@@ -23,15 +23,13 @@ import javax.persistence.*;
 @LocalBean
 @Startup
 public class PeriodicCleanUpSingleton {
-    @EJB
-    private EntityAccessorStateless entityAccessor;
     
     @PersistenceContext(unitName = "EJB_PU") 
     private EntityManager em; 
     
     private static long MS_IN_DAY = 24*3600*1000; 
 
-// TODO: fix the day of month
+
     
     
    @Schedule(dayOfMonth="*") 

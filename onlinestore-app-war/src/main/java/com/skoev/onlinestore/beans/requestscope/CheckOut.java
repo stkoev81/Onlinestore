@@ -45,7 +45,7 @@ public class CheckOut {
             //if logged in, set the ui information for the account accordingly
            // if not logged in, user will have to enter information.
            
-           cartBeanSession.getCartStateful().initUserInfo(requestInfo.getRequest().getUserPrincipal());
+           cartBeanSession.getCartStateful().initOrder(requestInfo.getRequest().getUserPrincipal());
           Date date = cartBeanSession.getCartStateful().getUi().getCardExpirationDate();
            Calendar cal = Calendar.getInstance();
          if (date!=null){

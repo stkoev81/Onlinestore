@@ -69,8 +69,12 @@ public class OrderStatusEntity implements Serializable {
         this.statusBegan = statusBegan;
     }
    
+    /**
+     * Returns a formatted string representation of the date {@link #statusBegan}
+     * @return The formatted date
+     */
     public String getStatusBeganFormatted(){
-    DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, Locale.US);
+        DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, Locale.US);
         dateFormat.setTimeZone(TimeZone.getTimeZone("America/New_York"));
         return dateFormat.format(statusBegan); 
         

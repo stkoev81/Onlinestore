@@ -29,7 +29,6 @@ public class InitializerSingleton {
         // get a list of all products (from a query). Lock it.
         // iterate over this list; for each one, set the number in cart to be equal to 0 and call calculate number available
         // TODO: handle exception somehow (who will see the error? will it be just in server log? )
-        // TODO: add some sort of method call to clear all sessions 
         String queryString = "SELECT p FROM ProductAvailabilityEntity p";
         TypedQuery<ProductAvailabilityEntity> query = em.createQuery(queryString, ProductAvailabilityEntity.class);
         query.setLockMode(LockModeType.PESSIMISTIC_WRITE);

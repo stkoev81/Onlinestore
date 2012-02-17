@@ -50,7 +50,6 @@
         </web-resource-collection>
         <auth-constraint>
             <description/>
-            <role-name>ADMINISTRATOR</role-name>
             <role-name>MANAGER</role-name>
             <role-name>CUSTOMER</role-name>
             <role-name>WAREHOUSE_WORKER</role-name>
@@ -66,7 +65,6 @@
         </web-resource-collection>
         <auth-constraint>
             <description/>
-            <role-name>ADMINISTRATOR</role-name>
             <role-name>MANAGER</role-name>
             <role-name>ACCOUNTANT</role-name>
             <role-name>WAREHOUSE_WORKER</role-name>
@@ -91,10 +89,6 @@
             <form-error-page>/LogIn/NotAuth.xhtml</form-error-page>
         </form-login-config>
     </login-config>
-    <security-role>
-        <description/>
-        <role-name>ADMINISTRATOR</role-name>
-    </security-role>
     <security-role>
         <description/>
         <role-name>CUSTOMER</role-name>

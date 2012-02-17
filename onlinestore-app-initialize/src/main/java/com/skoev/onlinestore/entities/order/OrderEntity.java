@@ -71,7 +71,8 @@ public class OrderEntity implements Serializable {
     private UserEntity customer;
     //unidirectional
     /**
-     * User information for this order; this is never null whether placed by a
+     * User information for this order; this is never null whether the order is
+     * placed by a
      * registered or unregistered user. 
      */
     @ManyToOne(fetch = FetchType.EAGER)
@@ -181,10 +182,18 @@ public class OrderEntity implements Serializable {
         return OrderAction.nextAction(this).getActionRequired();
     }
 
+    /**
+     * Returns a formatted String representation of the date {@link #orderDate}
+     * @return 
+     */
     public String getOrderDateFormatted() {
         return dateFormat.format(orderDate);
     }
 
+    /**
+     * Returns a formatted String representation of the date {@link #lastModified}
+     * @return 
+     */
     public String getLastModifiedFormatted() {
         return dateFormat.format(lastModified);
     }
