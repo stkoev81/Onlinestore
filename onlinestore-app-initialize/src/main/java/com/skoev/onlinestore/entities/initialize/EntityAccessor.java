@@ -180,12 +180,19 @@ public class EntityAccessor {
         }  
     }
     
-    //TODO: add transactions and exceptions handling
+    /**
+     * Executes a query
+     * @param resultsClass The class of the entity resulting from the query
+     * @param queryString The JPQL query 
+     * @param params JPQL query parameters
+     * @return The results from the query
+     */
     public <T> List<T> doQuery(Class<T> resultsClass, String queryString, Object...params){
         TypedQuery<T> query = em.createQuery(queryString,resultsClass);
         for( int i=0;i<params.length; i++){
             query.setParameter(i+1,params[i]);
-        }        
+        }
+        // no transaction needed for a query unless it has a lock set.
         return query.getResultList();
     }
     

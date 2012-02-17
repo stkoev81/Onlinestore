@@ -3,7 +3,7 @@
  * {@link TablesInitializer}. The method {@link TablesInitializer.main()} 
  * must be executed from a plain Java SE
  * environment to populate the online store's database with some products, users, 
- * and user groups before running the web application on the server for the first 
+ * user groups, and settings before running the web application on the server for the first 
  * time. If the web application is run with an empty database, there would be 
  * errors because the user groups are not defined (and of course, there will be 
  * no products to display). 

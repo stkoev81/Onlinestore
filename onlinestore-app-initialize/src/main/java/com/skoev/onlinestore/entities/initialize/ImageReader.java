@@ -1,4 +1,3 @@
-
 package com.skoev.onlinestore.entities.initialize;
 import java.io.*; 
 
