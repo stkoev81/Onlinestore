@@ -5,8 +5,7 @@ package com.skoev.onlinestore.beans.requestscope;
  * and open the template in the editor.
  */
 
-import com.skoev.onlinestore.ejb.EntityAccessorStateless;
-import com.skoev.onlinestore.ejb.MailSenderStateless;
+import com.skoev.onlinestore.ejb.*;
 import com.skoev.onlinestore.entities.user.*; 
 
 import java.util.logging.Level;
@@ -126,20 +125,21 @@ public class AcctCreation {
     * successful. 
     * @return 
     */        
-   public String createNewAccount(){
+   public String createNewAccount() {
        //set information related to group memberships and account activation
        user.setAcctCreationDate(new Date()); 
        user.setActivated(false);
        user.setActivationString(generateActivationString()); 
-       doCommonTasks();
-       try{
-        entityAccessor.persistEntity(user);
-        mailSender.sendActivationEmail(user, generateActivationURL()); 
-       return "Created"; 
+       doCommonTasks();       
+       try {
+            mailSender.sendActivationEmail(user, generateActivationURL()); 
        }
-       catch (Exception e){
-        return "/AccountCreation/Failure.xhtml";
+       catch (EmailException ee){
+            return "/Errors/EmailError.xhtml";
        }
+       entityAccessor.persistEntity(user);       
+       return "/AccountCreation/Created.xhtml"; 
+       
    }
    /**
     * Tries to update an existing account by setting various fields in the 
@@ -151,13 +151,10 @@ public class AcctCreation {
        if (newPassword!=null){
            user.setPasswd(newPassword);
        }
-       try{
-           entityAccessor.mergeEntity(user);                  
-           return "Changed.xhtml";
-       }
-       catch(Exception e){
-       return "/AccountCreation/Failure.xhtml";  
-       }
+       
+       entityAccessor.mergeEntity(user);                  
+       return "/InsideAccount/Changed.xhtml";
+       
    }
    
    /**

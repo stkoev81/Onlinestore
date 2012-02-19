@@ -13,10 +13,12 @@ import java.math.BigDecimal;
  * It is responsible for initializing the database. When the {@link #main} 
  * method is executed, it populates the database 
  * with products, user groups, users, and settings. Initialization data is 
- * read from a directory that is provided as a command line argument to {@link #main}
+ * read from a directory that is provided as a command line argument to 
+ * {@link #main}
  * 
  * <br/><br/>
- * The JPA persistence unit for this class (persistence.xml) must be named "PU_Clean". 
+ * The JPA persistence unit for this class (persistence.xml) must be named 
+ * "PU_Clean". 
  * It should be set up to use the "Drop and create tables" strategy. That way, 
  * even if the database is not empty, it will be overwritten with the proper
  * initialization data. 

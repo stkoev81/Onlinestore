@@ -5,6 +5,7 @@
 package com.skoev.onlinestore.beans.requestscope;
 
 import com.skoev.onlinestore.beans.sessionscope.*; 
+import com.skoev.onlinestore.ejb.EmailException; 
 
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
@@ -57,14 +58,20 @@ public class CheckOut {
        }
     
        
-    public String checkOutAction(){
+    public String checkOutAction() {
         Calendar cardExp = Calendar.getInstance();
-           cardExp.clear();
-           cardExp.set(Calendar.YEAR, Integer.parseInt(cardYear));
-           cardExp.set(Calendar.MONTH, Integer.parseInt(cardMonth)-1);
-           cardExp.set(Calendar.DATE, cardExp.getActualMaximum(Calendar.DATE)); 
-           cartBeanSession.getCartStateful().getUi().setCardExpirationDate(cardExp.getTime());
-           cartBeanSession.getCartStateful().placeOrder();
+        cardExp.clear();
+        cardExp.set(Calendar.YEAR, Integer.parseInt(cardYear));
+        cardExp.set(Calendar.MONTH, Integer.parseInt(cardMonth) - 1);
+        cardExp.set(Calendar.DATE, cardExp.getActualMaximum(Calendar.DATE));
+        cartBeanSession.getCartStateful().getUi().setCardExpirationDate(cardExp.getTime());
+        try {
+         cartBeanSession.getCartStateful().placeOrder();
+        }
+        catch (EmailException ee){
+            return "/Errors/EmailError.xhtml?faces-redirect=true";
+        }
+        
         return "/BrowseStore/OrderConfirmation.xhtml?faces-redirect=true";
     }
 
@@ -75,8 +82,6 @@ public class CheckOut {
     public String getCardYear() {
         return cardYear;
     }
-
- 
 
     public void setCardMonth(String cardMonth) {
         this.cardMonth = cardMonth;

@@ -54,8 +54,7 @@ public class CartBeanRequest {
             cartBeanSession.getCartStateful().addToCart(productID);        
        }
        catch(ProductNotAvailableException e){
-             FacesMessage message = new FacesMessage("Error! This product is no"
-                     + " longer available. "); 
+            FacesMessage message = new FacesMessage(e.userMessage()); 
             message.setSeverity(FacesMessage.SEVERITY_ERROR); 
             FacesContext.getCurrentInstance().addMessage(null, message);           
            

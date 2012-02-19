@@ -13,7 +13,8 @@ import java.security.Principal;
 
 /**
  * This stateful session EJB represents a shipping cart in the online store. It 
- * has methods for adding and removing products from the cart, and also for placing
+ * has methods for adding and removing products from the cart, and also for
+ * placing
  * an order based on  the cart contents. 
  * The proper usage of this class is as follows.
  * <br/>
@@ -50,11 +51,13 @@ public class CartStateful {
     /**
      * This is a mapping of productID's to order line items
      */
-    private Map<Long, OrderLineEntity> cartContents = new LinkedHashMap<Long, OrderLineEntity>();
+    private Map<Long, OrderLineEntity> cartContents = new LinkedHashMap<Long
+            , OrderLineEntity>();
     /**
      * A mapping of productID's to number of units of product
      */
-    private Map<Long, Integer> cartQuantities = new LinkedHashMap<Long, Integer>();
+    private Map<Long, Integer> cartQuantities = new LinkedHashMap<Long
+            , Integer>();
     
     /**
      * Injected entity manager used for accessing database
@@ -71,13 +74,14 @@ public class CartStateful {
     /**
      * Prepares this object for placing an order. First, creates a new 
      * OrderEntity object. Then, checks if the user is logged in; 
-     * if so, copies the UserInfoEntity from the UserEnitity object. If not logged
+     * if so, copies the UserInfoEntity from the UserEnitity object. If not
+     * logged
      * in, a new blank UserInforEntity object is created. 
      * 
      * @param userPrincipal The Principal object for the current user. If a 
      * user is not logged in, this value is null. 
      */
-    public void initOrder(Principal userPrincipal) {
+    public void initOrder(Principal userPrincipal) throws MarkerException {
         order = new OrderEntity();
         if (userPrincipal != null) {
             String username = userPrincipal.getName();
@@ -94,17 +98,21 @@ public class CartStateful {
      * form {@link #cartContents} and the UserInfo from {@link #ui} to 
      * {@link #order}. 
      * It then sets various fields in the order, such as totalCost, 
-     * lastModified, currentStatus, statusHistory, etc. Then it persists the order 
+     * lastModified, currentStatus, statusHistory, etc. Then it persists the
+     * order 
      * to the database, 
      * sends a status email, and clears the cartContents and cartQuantities. 
      * It also updates the product availability by calling 
      * {@link #updateOrderNumbers() }
+     * 
+     * @throws EmailException If there is problem sending out a status email.
      */
-    public void placeOrder() {
+    public void placeOrder() throws EmailException, MarkerException{
         updateOrderNumbers();
         ui.setHasOrder(true);
         order.setUi(ui);
-        order.setOrderLines(new LinkedList<OrderLineEntity>(cartContents.values()));
+        order.setOrderLines(new LinkedList<OrderLineEntity>(
+                cartContents.values()));
         order.setTotalCost(calcTotalCost());
         order.setOrderDate(new Date());
         order.setLastModified(order.getOrderDate());
@@ -134,14 +142,18 @@ public class CartStateful {
      * 
      * @see com.skoev.onlinestore.entities.product.ProductAvailabilityEntity
      */
-    private void updateOrderNumbers() {
+    private void updateOrderNumbers() throws MarkerException {
         for (OrderLineEntity ole : cartContents.values()) {
-            ProductAvailabilityEntity productNumbers = ole.getProduct().getNumbers();
+            ProductAvailabilityEntity productNumbers = ole.getProduct()
+                    .getNumbers();
             //look up the latest productNumbers
-            productNumbers = em.find(ProductAvailabilityEntity.class, productNumbers.getId(), LockModeType.PESSIMISTIC_WRITE);
+            productNumbers = em.find(ProductAvailabilityEntity.class
+                    , productNumbers.getId(), LockModeType.PESSIMISTIC_WRITE);
             Integer quantity = ole.getNumber();
-            productNumbers.setNumberInCarts(productNumbers.getNumberInCarts() - quantity);
-            productNumbers.setNumberInUnprocessedOrders(productNumbers.getNumberInUnprocessedOrders() + quantity);
+            productNumbers.setNumberInCarts(
+                    productNumbers.getNumberInCarts() - quantity);
+            productNumbers.setNumberInUnprocessedOrders(
+                    productNumbers.getNumberInUnprocessedOrders() + quantity);
         }
     }
 
@@ -149,14 +161,15 @@ public class CartStateful {
      * Returns the values of {@link #cartContents}
      * @return 
      */
-    public List<OrderLineEntity> getCartProductList() {
-        List<OrderLineEntity> list = new ArrayList<OrderLineEntity>(cartContents.values());
+    public List<OrderLineEntity> getCartProductList() throws MarkerException {
+        List<OrderLineEntity> list = new ArrayList<OrderLineEntity>(
+                cartContents.values());
         return list;
     }
     
     /**
      * Adds a single unit of the product to the shopping cart, {@literal i.e.}
-     *  it updates the {@link #cartContents} and {@link #cartQuantities}. It also
+     * it updates the {@link #cartContents} and {@link #cartQuantities}. It also
      * updates the numbers in ProductAvailabilityEntity by incrementing the
      * numberInCarts and decrementing the numberAvailable. It uses pessimistic 
      * locking to ensure that these numbers are changed consistently. 
@@ -169,15 +182,17 @@ public class CartStateful {
      * @see com.skoev.onlinestore.entities.product.ProductAvailabilityEntity
      * @see com.skoev.onlinestore.entities.product.ProductEntity
      */
-    public void addToCart(long productID) throws ProductNotAvailableException {
+    public void addToCart(long productID) throws ProductNotAvailableException, MarkerException {
         ProductEntity product = em.find(ProductEntity.class, productID);
         if (product == null){
             throw new ProductNotAvailableException();
         }
         ProductAvailabilityEntity productNumbers = product.getNumbers();
-        productNumbers = em.find(ProductAvailabilityEntity.class, productNumbers.getId(), LockModeType.PESSIMISTIC_WRITE);
+        productNumbers = em.find(ProductAvailabilityEntity.class
+                , productNumbers.getId(), LockModeType.PESSIMISTIC_WRITE);
 
-        if (productNumbers.getNumberAvailable() <= 0 || !product.getDisplayProductInStore()) {
+        if (productNumbers.getNumberAvailable() <= 0
+                || !product.getDisplayProductInStore()) {
             throw new ProductNotAvailableException();
         }
 
@@ -194,7 +209,8 @@ public class CartStateful {
             cartQuantities.put(productID, quantity);
         }
 
-        productNumbers.setNumberInCarts(productNumbers.getNumberInCarts() + quantity);
+        productNumbers.setNumberInCarts(productNumbers.getNumberInCarts()
+                + quantity);
         productNumbers.calculateNumberAvailable();
         
     }
@@ -205,12 +221,13 @@ public class CartStateful {
      * {@link #updateProductQuantity(java.lang.Long, int, int)} to achieve this.
      * Therefore, updating the cart quantities consists of
      * two steps: <br/>
-     * 1) Change the numbers in each OrderLineEntity in {@link #cartContents} <br/>
+     * 1) Change the numbers in each OrderLineEntity in {@link #cartContents}
+     * <br/>
      * 2) Call this method <br/>
      * 
      * @see #updateProductQuantity(java.lang.Long, int, int) 
      */
-    public void updateCart() {
+    public void updateCart() throws MarkerException {
         for (Long l : cartContents.keySet()) {
             int newQuantity = cartContents.get(l).getNumber();
             int oldQuantity = cartQuantities.get(l);
@@ -239,36 +256,42 @@ public class CartStateful {
      * 
      * @see com.skoev.onlinestore.entities.product.ProductAvailabilityEntity
      */
-    private void updateProductQuantity(Long productID, int oldQuantity, int newQuantity) {
+    private void updateProductQuantity(Long productID, int oldQuantity
+            , int newQuantity) throws MarkerException {
         ProductEntity product = em.find(ProductEntity.class, productID);
         ProductAvailabilityEntity productNumbers = product.getNumbers();
-        productNumbers = em.find(ProductAvailabilityEntity.class, productNumbers.getId(), LockModeType.PESSIMISTIC_WRITE);
+        productNumbers = em.find(ProductAvailabilityEntity.class
+                , productNumbers.getId(), LockModeType.PESSIMISTIC_WRITE);
 
         int actualQuantity;
-        productNumbers.setNumberInCarts(productNumbers.getNumberInCarts() - oldQuantity);
+        productNumbers.setNumberInCarts(
+                productNumbers.getNumberInCarts() - oldQuantity);
         productNumbers.calculateNumberAvailable();
         if (newQuantity == 0) {
             cartContents.remove(productID);
             cartQuantities.remove(productID);
         } else if (productNumbers.getNumberAvailable() < newQuantity) {
             actualQuantity = productNumbers.getNumberAvailable();
-            productNumbers.setNumberInCarts(productNumbers.getNumberInCarts() + actualQuantity);
+            productNumbers.setNumberInCarts(
+                    productNumbers.getNumberInCarts() + actualQuantity);
             productNumbers.calculateNumberAvailable();
             cartQuantities.put(productID, actualQuantity);
             cartContents.get(productID).setNumber(actualQuantity);
         } else {
             cartQuantities.put(productID, newQuantity);
-            productNumbers.setNumberInCarts(productNumbers.getNumberInCarts() + newQuantity);
+            productNumbers.setNumberInCarts(
+                    productNumbers.getNumberInCarts() + newQuantity);
             productNumbers.calculateNumberAvailable();
         }
 
     }
 
     /**
-     * Empties the cart; it simply uses the {@link #updateCart()} method to set all 
+     * Empties the cart; it simply uses the {@link #updateCart()} method to set 
+     * all 
      * product quantities to 0. 
      */
-    public void emptyCart() {
+    public void emptyCart() throws MarkerException {
         for (Long l : cartContents.keySet()) {
             cartContents.get(l).setNumber(0);
         }
@@ -284,7 +307,8 @@ public class CartStateful {
         BigDecimal sum = BigDecimal.ZERO;
         for (Long l : cartContents.keySet()) {
             OrderLineEntity ol = cartContents.get(l);
-            BigDecimal linePrice = ol.getProduct().getPrice().multiply(BigDecimal.valueOf(ol.getNumber()));
+            BigDecimal linePrice = ol.getProduct().getPrice().multiply(
+                    BigDecimal.valueOf(ol.getNumber()));
             sum = sum.add(linePrice);
         }
         return sum;

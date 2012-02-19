@@ -3,7 +3,8 @@
  * 
  * To configure the database connection settings, 
  * a persistence.xml file is needed on the classpath. If building with Maven, this 
- * file should be placed in the directory /src/main/resources/META-INF. 
+ * file should be placed in the directory /src/main/resources/META-INF. The
+ * persistence unit in persistence.xml must be named "PU_Admin". 
  * 
  * 
  * This package and the package {@link com.skoev.onlinestore.entities.initialize}

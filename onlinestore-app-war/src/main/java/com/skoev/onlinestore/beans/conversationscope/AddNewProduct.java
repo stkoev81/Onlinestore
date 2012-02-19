@@ -7,7 +7,6 @@ import com.skoev.onlinestore.entities.product.*;
 
 import javax.inject.Named;
 import javax.enterprise.context.ConversationScoped;
-import java.io.Serializable;
 import javax.inject.Inject; 
 import javax.enterprise.context.Conversation; 
 import javax.faces.application.FacesMessage;
@@ -18,12 +17,13 @@ import javax.faces.validator.ValidatorException;
 import javax.faces.context.FacesContext; 
 import javax.faces.component.UIComponent; 
 
-import com.skoev.onlinestore.ejb.EntityAccessorStateless;
+import com.skoev.onlinestore.ejb.*; 
 import javax.ejb.EJB;
 import java.io.*; 
 import java.util.Date; 
 import com.skoev.onlinestore.beans.sessionscope.InsideAccount; 
-import com.skoev.onlinestore.ejb.MailSenderStateless;
+
+
 
 /**
  *
@@ -89,7 +89,7 @@ public class AddNewProduct implements Serializable {
     }
     
     
-    public String createNewProduct(){
+    public String createNewProduct() {
         // add the image to the product entity
         // persist entity
         // remove from the conversation scope  
@@ -97,8 +97,9 @@ public class AddNewProduct implements Serializable {
         try {
             image.setContent(uploadedFile.getBytes());
         }
+        //TODO: handle this exc
         catch(IOException e){
-        throw new RuntimeException(e);
+            throw new RuntimeException(e);
         }
         
         image.setFileLength(uploadedFile.getSize());
@@ -107,11 +108,17 @@ public class AddNewProduct implements Serializable {
         product.setLastModifiedDate(new Date());
         product.setLastModifiedBy(insideAccount.getUsername());
         product.setProductType(newProductType);
+        
+        conversation.end(); 
+        try {
+            mailSender.sendAlert("ProductID: " + product.getProductID(), "New product created");
+        }
+       catch (EmailException ee){
+            return "/Errors/EmailError.xhtml?faces-redirect=true";
+        }
         entityAccessor.persistEntity(product.getNumbers());
         entityAccessor.persistEntity(product);       
         
-        mailSender.sendAlert("ProductID: " + product.getProductID(), "New product created");
-        conversation.end(); 
         
         
     return "/InsideAccount/Manager/ProductAddSuccess.xhtml?faces-redirect=true";

@@ -8,6 +8,11 @@ package com.skoev.onlinestore.ejb;
  *
  * @author stephan
  */
-public class ProductNotAvailableException extends Exception{
+public class ProductNotAvailableException extends Exception implements 
+        UserFriendly{
     
+    @Override
+    public String userMessage(){
+        return "Error! This product is no longer available. "; 
+    }
 }

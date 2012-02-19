@@ -20,7 +20,7 @@
         <h:outputText value ="E-mail"/> 
         <h:inputText value ="#{passwordReminder.email}" id="email" 
         label="E-mail" required="true" validator = "#{validator.emailValidate}"/>
-        <h:commandButton value="Submit" action="#{passwordReminder.lookupAccount}" />
+        <h:commandButton value="Submit" action="#{passwordReminder.lookupAndSend}" />
     </h:form>
 </ui:composition>
 </h:body>

@@ -4,8 +4,9 @@ package com.skoev.onlinestore.beans.requestscope;
 import javax.inject.Named;
 import java.util.*;
 import com.skoev.onlinestore.entities.user.*;
-import com.skoev.onlinestore.ejb.EntityAccessorStateless;
-import com.skoev.onlinestore.ejb.MailSenderStateless;
+import com.skoev.onlinestore.ejb.*;
+
+
 import javax.enterprise.context.RequestScoped;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage; 
@@ -37,7 +38,7 @@ public class PasswordReminder {
      * this operation. 
      * @return 
      */
-    public String lookupAccount(){
+    public String lookupAndSend() {
         if("email@example.com".equals(email)){
             FacesMessage message = new FacesMessage("Error! This is not a real "
                     + "email address. This is"
@@ -67,8 +68,14 @@ public class PasswordReminder {
                 entityAccessor.mergeEntity(a); 
             }
             
-            mailSender.sendPasswordReminder(accounts,email, password); 
+            try {
+                mailSender.sendPasswordReminder(accounts,email, password); 
+            }
             
+            catch (EmailException ee){
+                return "/Errors/EmailError.xhtml?faces-redirect=true";
+            }
+                        
             message = new FacesMessage("Your account was found. "
                     + "You will receive an email with the password.");         
             message.setSeverity(FacesMessage.SEVERITY_INFO); 
@@ -81,7 +88,7 @@ public class PasswordReminder {
     }
   
     /**
-     * Generates are randmom password, 8 characters long. 
+     * Generates a random password, 8 characters long. 
      * @return 
      */
     private String generatePassword(){

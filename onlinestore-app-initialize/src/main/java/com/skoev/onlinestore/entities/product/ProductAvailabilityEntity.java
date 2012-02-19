@@ -30,14 +30,20 @@ public class ProductAvailabilityEntity implements Serializable {
     /**
      * Number of units of this product available for sale in the store.
      * This number is displayed to the customer, and if it is 0, the product
-     * cannot be ordered. This number is decremented when a product is placed in 
-     * cart and ordered; it is incremented back up if the cart is emptied (either 
+     * cannot be ordered or even placed in cart.
+     * This number is decremented when a product is placed in 
+     * cart; it is incremented back up if the cart is emptied (either 
      * explicitly or the session expired or the server was restarted) or the 
      * order processing fails. 
+     * <br/><br/>
+     * Basically, the expectation is that if an item is placed in
+     * cart by a customer, it becomes off limits to other customers. 
+     * 
      */
     private Integer numberAvailable;
     /**
-     * This is the number of units of the product that are physically available in 
+     * This is the number of units of the product that are physically available
+     * in 
      * the warehouse. This number is decremented when an order is marked as 
      * SHIPPED. This number can be changed by employee type MANAGER (for 
      * example when conducting an inventory or restocking). 
@@ -46,7 +52,8 @@ public class ProductAvailabilityEntity implements Serializable {
     /**
      * This is the number of units of the product that is currently sitting in 
      * shopping carts but has not been ordered yet. If the server is restarted, 
-     * this number is set to 0 and numberAvailable is incremented accordingly.
+     * this number should be set to 0 and numberAvailable should be
+     * incremented accordingly.
      */
     private Integer numberInCarts;
     /**
@@ -63,7 +70,8 @@ public class ProductAvailabilityEntity implements Serializable {
      * {@link #numberInCarts}, or {@link #numberInUnprocessedOrders}. 
      */
     public void calculateNumberAvailable() {
-        numberAvailable = numberInWarehouse - numberInCarts - numberInUnprocessedOrders;
+        numberAvailable = numberInWarehouse - numberInCarts 
+                - numberInUnprocessedOrders;
     }
 
     public Integer getNumberAvailable() {
@@ -90,7 +98,7 @@ public class ProductAvailabilityEntity implements Serializable {
         this.numberInCarts = numberInCarts;
     }
 
-    public void setNumberInUnprocessedOrders(Integer numberInUnprocessedOrders) {
+    public void setNumberInUnprocessedOrders(Integer numberInUnprocessedOrders){
         this.numberInUnprocessedOrders = numberInUnprocessedOrders;
     }
 
