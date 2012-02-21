@@ -180,7 +180,8 @@ public class ProductEntity implements Serializable {
      * @return 
      */
     public String getLastModifiedDateFormatted() {
-        DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, Locale.US);
+        DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.SHORT
+                , DateFormat.SHORT, Locale.US);
         dateFormat.setTimeZone(TimeZone.getTimeZone("America/New_York"));
         return dateFormat.format(lastModifiedDate);
     }

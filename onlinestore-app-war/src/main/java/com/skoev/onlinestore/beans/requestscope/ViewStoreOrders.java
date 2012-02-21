@@ -105,13 +105,14 @@ public class ViewStoreOrders {
         manageOrdersStateful.updateOrder(ose);
        }
        catch ( UpdateFailedException e){
-        FacesMessage message = new FacesMessage("Error! Status could not be updated. It seems someone else already "
-                +"updated the status while you were viewing it. Press 'page refresh' to "
-                + "see the latest status.");         
+        FacesMessage message = new FacesMessage(e.userMessage());         
             message.setSeverity(FacesMessage.SEVERITY_ERROR); 
             FacesContext context = FacesContext.getCurrentInstance();   
             context.addMessage(null,message);
          return null;
+       }
+       catch (EmailException ee){
+           return "/Errors/EmailError.xhtml";
        }
        
        return redirectToSelf(); 

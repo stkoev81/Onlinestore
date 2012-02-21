@@ -1,16 +1,17 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.skoev.onlinestore.ejb;
 
 /**
- *
- * @author stephan
+ * This exception is thrown to report that a product in the online store is 
+ * not available to be ordered. 
+ * 
  */
 public class ProductNotAvailableException extends Exception implements 
         UserFriendly{
-    
+    /**
+     * Returns a message stating that the there was an error because the product
+     * is no longer available. 
+     * @return 
+     */
     @Override
     public String userMessage(){
         return "Error! This product is no longer available. "; 

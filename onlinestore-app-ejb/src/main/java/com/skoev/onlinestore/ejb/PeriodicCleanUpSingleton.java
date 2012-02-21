@@ -51,19 +51,17 @@ public class PeriodicCleanUpSingleton {
         //Date twentyDaysAgo = new Date(today.getTime() - 10); 
         String shippedStatus = OrderStatusEnum.SHIPPED.toString();
 
-        String queryString = "SELECT p FROM OrderEntity p WHERE p.currentStatus = ?1 AND p.lastModified < ?2";
+        String queryString = "SELECT p FROM OrderEntity p WHERE p.currentStatus "
+                + "= ?1 AND p.lastModified < ?2";
         TypedQuery query = em.createQuery(queryString, OrderEntity.class);
         query.setParameter(1, shippedStatus);
         query.setParameter(2, twentyDaysAgo);
 
         query.setLockMode(LockModeType.PESSIMISTIC_WRITE);
         List<OrderEntity> shippedOrders = query.getResultList();
-        System.err.println("old orders found: " + shippedOrders.size());
         for (OrderEntity order : shippedOrders) {
             closeOrder(order);
         }
-
-        System.err.println("-------closeOldOrders was executed");
     }
 
     /**
@@ -99,7 +97,8 @@ public class PeriodicCleanUpSingleton {
         Date today = new Date();
         Date thirtyDaysAgo = new Date(today.getTime() - 30 * MS_IN_DAY);
 
-        String queryString = "SELECT p FROM UserEntity p WHERE p.activated = ?1 AND p.acctCreationDate < ?2";
+        String queryString = "SELECT p FROM UserEntity p WHERE p.activated = ?1"
+                + " AND p.acctCreationDate < ?2";
 
         TypedQuery query = em.createQuery(queryString, UserEntity.class);
         query.setParameter(1, false);
@@ -107,14 +106,10 @@ public class PeriodicCleanUpSingleton {
 
         query.setLockMode(LockModeType.PESSIMISTIC_WRITE);
         List<UserEntity> unactivatedAccts = query.getResultList();
-        System.err.println("unactivated accts found: " + unactivatedAccts.size());
         for (UserEntity acct : unactivatedAccts) {
             em.remove(acct.getUi());
             em.remove(acct);
         }
-
-        System.err.println("-------deleteUnverifiedAccounts was executed");
-
     }
 
     /**
@@ -123,21 +118,20 @@ public class PeriodicCleanUpSingleton {
      * database that are not associated with a any order or any user account 
      * and deletes them. Such orphaned objects could 
      * be created for example if a customer who has not placed any orders 
-     * deletes his account. This method is executed automatically every day by the 
-     * container. 
+     * deletes his account. This method is executed automatically every day by 
+     * the container. 
      * 
      */
     @Schedule(dayOfMonth = "*")
     public void deleteUnusedUserInfo() {
-        String queryString = "SELECT p FROM UserInfoEntity p WHERE p.hasUser=?1 AND p.hasOrder= ?2";
+        String queryString = "SELECT p FROM UserInfoEntity p WHERE p.hasUser=?1"
+                + " AND p.hasOrder= ?2";
         TypedQuery query = em.createQuery(queryString, UserInfoEntity.class);
         query.setParameter(1, false);
         query.setParameter(2, false);
         List<UserInfoEntity> unusedUserInfo = query.getResultList();
-        System.err.println("unusedUserInfo found: " + unusedUserInfo.size());
         for (UserInfoEntity ui : unusedUserInfo) {
             em.remove(ui);
         }
-        System.err.println("-------deleteUnusedUserInfo was executed");
     }
 }

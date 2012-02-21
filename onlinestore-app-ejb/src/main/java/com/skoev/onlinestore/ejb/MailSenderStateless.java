@@ -14,8 +14,6 @@ import javax.mail.internet.InternetAddress;
 import javax.persistence.*;
 import java.util.logging.*;
 
-//TODO: delete all the MarkerException stuff
-//TODO: delete the UserFriendly exception stuff
 /**
  * This stateless EJB is responsible for sending emails. These included status 
  * messages

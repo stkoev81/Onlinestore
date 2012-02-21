@@ -46,7 +46,7 @@ public class EntityAccessorStateless {
      * Persists and entity in the database
      * @param entity 
      */
-    public void persistEntity(Object entity) throws MarkerException{    
+    public void persistEntity(Object entity) {    
         em.persist(entity);
     } 
     
@@ -54,7 +54,7 @@ public class EntityAccessorStateless {
      * Refreshes and entity from the database
      * @param entity 
      */
-    public void refreshEntity(Object entity) throws MarkerException{
+    public void refreshEntity(Object entity) {
         em.refresh(entity);
     }
 
@@ -62,7 +62,7 @@ public class EntityAccessorStateless {
      * Merges and entity to the database
      * @param entity 
      */
-    public void mergeEntity(Object entity) throws MarkerException {
+    public void mergeEntity(Object entity) {
         em.merge(entity);
     }
 
@@ -72,7 +72,7 @@ public class EntityAccessorStateless {
      * @param primaryKey
      * @return 
      */
-    public <T> T findEntity(Class<T> entityClass, Object primaryKey) throws MarkerException {
+    public <T> T findEntity(Class<T> entityClass, Object primaryKey) {
         T entity = em.find(entityClass, primaryKey); 
         return entity; 
     }
@@ -83,7 +83,7 @@ public class EntityAccessorStateless {
      * @param primaryKey 
      */
     public <T> void findAndDeleteEntity(Class<T> entityClass
-            , Object primaryKey) throws MarkerException {
+            , Object primaryKey) {
         T entity = em.find(entityClass, primaryKey); 
         if (entity!=null)
             em.remove(entity);    
@@ -93,7 +93,7 @@ public class EntityAccessorStateless {
      * Deletes and entity from the database.
      * @param entity 
      */
-    public void deleteEntity(Object entity) throws MarkerException {
+    public void deleteEntity(Object entity){
         em.remove(em.merge(entity));
     }
     
@@ -105,7 +105,7 @@ public class EntityAccessorStateless {
      * @return 
      */
     public <T> List<T> doQuery(Class<T> resultsClass, String queryString
-            , Object...params) throws MarkerException {
+            , Object...params) {
         TypedQuery<T> query = em.createQuery(queryString,resultsClass);
         query.setLockMode(LockModeType.NONE);
         for( int i=0;i<params.length; i++){
@@ -121,7 +121,7 @@ public class EntityAccessorStateless {
      * data integrity constraints would be violated)
      * @param user 
      */
-    public void deleteUserAccout(UserEntity user) throws MarkerException {       
+    public void deleteUserAccout(UserEntity user) {       
        String query = "SELECT p from OrderEntity p WHERE p.customer=?1";       
        List<OrderEntity> orders = doQuery(OrderEntity.class, query, user); 
        for ( OrderEntity o:orders){

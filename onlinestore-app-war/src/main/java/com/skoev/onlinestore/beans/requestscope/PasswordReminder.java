@@ -1,41 +1,41 @@
-
 package com.skoev.onlinestore.beans.requestscope;
 
 import javax.inject.Named;
 import java.util.*;
 import com.skoev.onlinestore.entities.user.*;
 import com.skoev.onlinestore.ejb.*;
-
-
 import javax.enterprise.context.RequestScoped;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage; 
 import javax.faces.context.FacesContext;
 /**
  * Contains methods to generate a password reminder and send it in an email 
- * to the user. 
+ * to the user. This is a request scoped CDI managed bean. 
+ * 
+ * @see com.skoev.onlinestore.ejb.MailSenderStateless#sendPasswordReminder 
  * 
  */
 @Named
 @RequestScoped
 public class PasswordReminder {
-@EJB
+    @EJB
     private MailSenderStateless mailSender;
     @EJB
     private EntityAccessorStateless entityAccessor;
-    /** Creates a new instance of PasswordReminder */
     public PasswordReminder() {
     }
+    /**
+     * Email address for which the account will be looked up. 
+     */
     private String email;
-    
     private FacesContext context = FacesContext.getCurrentInstance(); 
     
-    
     /**
-     * Looks up user entity, sets a new randomly generated password, sends
-     * a reminder email; also, 
-     * generates a message for the user depending on the success or failure of 
-     * this operation. 
+     * Looks up user entity, sets a new randomly generated password, and sends
+     * it in a reminder email. Also, 
+     * generates a Faces message for the user depending on the success or 
+     * failure of this operation. This method internally uses 
+     * {@link com.skoev.onlinestore.ejb.MailSenderStateless#sendPasswordReminder}
      * @return 
      */
     public String lookupAndSend() {
@@ -48,8 +48,6 @@ public class PasswordReminder {
             context.addMessage(null, message);
             return null; 
         }
-        
-        
         String query = "SELECT u FROM UserEntity u WHERE u.ui.email=?1 "
                 + "AND u.activated=true";
         List<UserEntity> accounts = entityAccessor.doQuery(UserEntity.class
@@ -62,12 +60,10 @@ public class PasswordReminder {
         }
         else {
             String password = generatePassword(); 
-            
             for (UserEntity a:accounts){
                 a.setPasswd(password);
                 entityAccessor.mergeEntity(a); 
             }
-            
             try {
                 mailSender.sendPasswordReminder(accounts,email, password); 
             }
@@ -75,16 +71,12 @@ public class PasswordReminder {
             catch (EmailException ee){
                 return "/Errors/EmailError.xhtml?faces-redirect=true";
             }
-                        
             message = new FacesMessage("Your account was found. "
                     + "You will receive an email with the password.");         
             message.setSeverity(FacesMessage.SEVERITY_INFO); 
-            
         } 
         context.addMessage(null,message);
-        
         return null; 
-    
     }
   
     /**
@@ -105,8 +97,4 @@ public class PasswordReminder {
     public void setEmail(String email) {
         this.email = email;
     }
-    
-    
-    
-    
 }

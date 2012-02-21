@@ -15,5 +15,7 @@
  * store. 
  * 
  * @see com.skoev.onlinestore.entities.initialize
+ * 
+ * @author Stefan Koev
  */
 package com.skoev.onlinestore.admin;

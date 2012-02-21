@@ -14,7 +14,8 @@ import javax.annotation.PostConstruct;
 
 /**
  *
- * @author stephan
+ * 
+ * @see com.skoev.onlinestore.web.MenuLink
  */
 @Named(value = "menus")
 @RequestScoped

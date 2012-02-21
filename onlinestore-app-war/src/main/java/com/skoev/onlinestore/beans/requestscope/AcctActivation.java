@@ -1,36 +1,40 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.skoev.onlinestore.beans.requestscope;
 
-import com.skoev.onlinestore.ejb.*; 
-import com.skoev.onlinestore.entities.user.*; 
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.ejb.EJB;
 import java.util.*; 
-
-
-
+import com.skoev.onlinestore.ejb.*; 
+import com.skoev.onlinestore.entities.user.*; 
 
 /**
- *
- * @author stephan
+ * This class is used for activating an account. It is a request scoped CDI
+ * managed bean. When a user creates an account, it is first marked as inactive. 
+ * An activation URL is sent to the user to the email address he provided. 
+ * When the user visits that URL, the account is marked as activated and the 
+ * user can log in. 
+ * 
+ * @see com.skoev.onlinestore.ejb.MailSenderStateless#sendActivationEmail 
  */
 @Named
 @RequestScoped
 public class AcctActivation {
+    /**
+     * Injected EJB used for persistence operations. 
+     */
     @EJB
     private EntityAccessorStateless entityAccessor; 
-    
+    /**
+     * The activation string that was received from the user as a query string
+     */
     private String activationString; 
+    /**
+     * The username that was received from the user as a query string
+     */
     private String username; 
 
-    /** Creates a new instance of AccountVerification */
     public AcctActivation() {
     }
-    
     /**
      * Tries to activate the account by looking at the activationString and 
      * userName, which are set from query string parameters; if successful, an 
@@ -52,13 +56,10 @@ public class AcctActivation {
        if (username == null || activationString == null){
            return failure; 
        }
-       
        UserEntity user = entityAccessor.findEntity(UserEntity.class,username); 
-       
        if(user==null){
            return expired; 
        }
-       
        else if (!user.getActivated() && activationString.equals(user
                .getActivationString())){
            user.setActivated(true); 
@@ -66,24 +67,17 @@ public class AcctActivation {
            List<GroupEntity> groups = new LinkedList<GroupEntity>(); 
            groups.add(new GroupEntity("CUSTOMER")); 
            user.setGroupMemberships(groups);
-           
            entityAccessor.mergeEntity(user);
-           
-           
            return success; 
        }
-       
        else if (user.getActivated()){
            return alreadyActivated; 
        }
-               
        else {
            return failure; 
-       
        }
-        
     }
-
+    
     public String getActivationString() {
         return activationString;
     }
@@ -99,5 +93,4 @@ public class AcctActivation {
     public void setUsername(String username) {
         this.username = username;
     }
-
 }

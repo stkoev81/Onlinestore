@@ -81,7 +81,7 @@ public class CartStateful {
      * @param userPrincipal The Principal object for the current user. If a 
      * user is not logged in, this value is null. 
      */
-    public void initOrder(Principal userPrincipal) throws MarkerException {
+    public void initOrder(Principal userPrincipal) {
         order = new OrderEntity();
         if (userPrincipal != null) {
             String username = userPrincipal.getName();
@@ -107,7 +107,7 @@ public class CartStateful {
      * 
      * @throws EmailException If there is problem sending out a status email.
      */
-    public void placeOrder() throws EmailException, MarkerException{
+    public void placeOrder() throws EmailException {
         updateOrderNumbers();
         ui.setHasOrder(true);
         order.setUi(ui);
@@ -142,7 +142,7 @@ public class CartStateful {
      * 
      * @see com.skoev.onlinestore.entities.product.ProductAvailabilityEntity
      */
-    private void updateOrderNumbers() throws MarkerException {
+    private void updateOrderNumbers() {
         for (OrderLineEntity ole : cartContents.values()) {
             ProductAvailabilityEntity productNumbers = ole.getProduct()
                     .getNumbers();
@@ -161,7 +161,7 @@ public class CartStateful {
      * Returns the values of {@link #cartContents}
      * @return 
      */
-    public List<OrderLineEntity> getCartProductList() throws MarkerException {
+    public List<OrderLineEntity> getCartProductList() {
         List<OrderLineEntity> list = new ArrayList<OrderLineEntity>(
                 cartContents.values());
         return list;
@@ -182,7 +182,7 @@ public class CartStateful {
      * @see com.skoev.onlinestore.entities.product.ProductAvailabilityEntity
      * @see com.skoev.onlinestore.entities.product.ProductEntity
      */
-    public void addToCart(long productID) throws ProductNotAvailableException, MarkerException {
+    public void addToCart(long productID) throws ProductNotAvailableException {
         ProductEntity product = em.find(ProductEntity.class, productID);
         if (product == null){
             throw new ProductNotAvailableException();
@@ -227,7 +227,7 @@ public class CartStateful {
      * 
      * @see #updateProductQuantity(java.lang.Long, int, int) 
      */
-    public void updateCart() throws MarkerException {
+    public void updateCart() {
         for (Long l : cartContents.keySet()) {
             int newQuantity = cartContents.get(l).getNumber();
             int oldQuantity = cartQuantities.get(l);
@@ -257,7 +257,7 @@ public class CartStateful {
      * @see com.skoev.onlinestore.entities.product.ProductAvailabilityEntity
      */
     private void updateProductQuantity(Long productID, int oldQuantity
-            , int newQuantity) throws MarkerException {
+            , int newQuantity) {
         ProductEntity product = em.find(ProductEntity.class, productID);
         ProductAvailabilityEntity productNumbers = product.getNumbers();
         productNumbers = em.find(ProductAvailabilityEntity.class
@@ -291,7 +291,7 @@ public class CartStateful {
      * all 
      * product quantities to 0. 
      */
-    public void emptyCart() throws MarkerException {
+    public void emptyCart() {
         for (Long l : cartContents.keySet()) {
             cartContents.get(l).setNumber(0);
         }

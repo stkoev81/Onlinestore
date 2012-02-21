@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.skoev.onlinestore.web;
 import java.util.*; 
 
@@ -9,6 +5,7 @@ import java.util.*;
  * This class represents a pager component, that is, a collection of hyperlinks
  * used to scroll through a large list of items. 
  * 
+ * @see PagerLink
  */
 public class Pager {
     public Pager(){
@@ -26,7 +23,8 @@ public class Pager {
     }
     
     /**
-     * The first item from the list to show on the current page; if firstItem=1, then shows list from 
+     * The first item from the list to show on the current page; if 
+     * firstItem=1, then shows list from 
      * the beginning. 
      */
     private Integer firstItem = 1;     
@@ -75,9 +73,6 @@ public class Pager {
         Integer lastPageParam = (numPages -1)*ipp + 1; 
         Integer currentPage = (firstItem-1)/ipp +1; 
         
-       //Integer prevPageParam = (firstItem - ipp)<1?1:(firstItem-ipp); 
-       //Integer nextPageParam = (firstItem + ipp)>numResults?lastPageParam:(firstItem+ipp);     
-
         Integer prevPageParam, nextPageParam; 
         boolean prevPageRendered, nextPageRendered;  
         
@@ -100,23 +95,18 @@ public class Pager {
             nextPageRendered = true; 
         }
         
-        
         pageList.add(new PagerLink(0, "Pages: ", true)); 
         pageList.add(new PagerLink(firstPageParam, "first",!prevPageRendered ) ); 
         pageList.add(new PagerLink(lastPageParam, "last",!nextPageRendered )) ;     
         pageList.add(new PagerLink(prevPageParam, "<",!prevPageRendered )); 
         pageList.add(new PagerLink(nextPageParam, ">",!nextPageRendered ));      
         
-        
         for (int i=1; i<=numPages; i++){
             pageList.add(new PagerLink((i-1)*ipp+1, i, i==currentPage)); 
         }    
         
-        
-        
         return pageList; 
     }
-    
       
     public void setFirstItem(Integer firstItem) {
         this.firstItem = firstItem;
@@ -141,17 +131,6 @@ public class Pager {
     public void setNumItems(int numItems) {
         this.numItems = numItems;
     }
-
-   
-
-   
-    
-    
-    
-    
-    
-    
-    
 }
             
     

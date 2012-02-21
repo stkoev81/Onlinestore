@@ -1,12 +1,10 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.skoev.onlinestore.web;
 
 /**
- * This class represents a single link in a menu
+ * This class represents a single link in a menu. Collections of this type of 
+ * objects are used to create navigation menus in the online store. 
  * 
+ * @see com.skoev.onlinestore.beans.requestscope.Menus
  */
 public class MenuLink {
     /**
@@ -19,12 +17,12 @@ public class MenuLink {
     private String linkTarget; 
     /**
      * Whether the page to which this link points is currently being viewed; 
-     * If so, the link will be rendered differently to distinguish from other links
-     * in the menu
+     * If so, the link can be rendered differently to distinguish from other
+     * links in the menu
+     * 
      */
     private boolean currentLink;
-    private String pageName;
-
+    
     public MenuLink(String linkName, String linkTarget, boolean currentLink) {
         this.linkName = linkName;
         this.linkTarget = linkTarget;
