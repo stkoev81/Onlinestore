@@ -1,26 +1,14 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.skoev.onlinestore.beans.requestscope;
-
-
 
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse; 
-import javax.servlet.ServletException; 
-import javax.servlet.http.Cookie; 
-import javax.faces.event.*; 
-import java.io.Serializable; 
-import java.io.IOException;
-import javax.faces.application.FacesMessage;
-import java.security.Principal; 
 
 /**
- * Contains methods that provide information about the current request. 
+ * Contains methods that provide information about the current request. This is 
+ * a request scoped CDI managed bean. 
  */
 @Named
 @RequestScoped

@@ -131,6 +131,8 @@ public class AddNewProduct implements Serializable {
      * an alert email. 
      * 
      * @return The name of the "Email Error" page if there is an EmailException;
+     * null if the image file content could not be read (stays on same page
+     * and prints Faces message about the failure); 
      * the name of the "Product addition success" page otherwise.
      * 
      */
@@ -138,14 +140,17 @@ public class AddNewProduct implements Serializable {
         // add the image to the product entity
         // persist entity
         // remove from the conversation scope  
-        // go to success page, where you have links for prodcut creation or 
-        // products page
+        // go to success page
         try {
             image.setContent(uploadedFile.getBytes());
         }
-        //TODO: handle this exc
         catch(IOException e){
-            throw new RuntimeException(e);
+            FacesMessage message = new FacesMessage("Error! The image file"
+                    + " could not be read. Product creation failed");
+            message.setSeverity(FacesMessage.SEVERITY_ERROR);
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, message);
+            return null; 
         }
         
         image.setFileLength(uploadedFile.getSize());
@@ -227,8 +232,5 @@ public class AddNewProduct implements Serializable {
     public void setImage(ImageEntity image) {
         this.image = image;
     }
-    
-    
-    
     
 }

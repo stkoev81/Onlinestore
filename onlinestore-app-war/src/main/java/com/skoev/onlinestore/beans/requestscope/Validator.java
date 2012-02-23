@@ -1,29 +1,20 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.skoev.onlinestore.beans.requestscope;
 
-import com.skoev.onlinestore.beans.requestscope.AcctCreation;
-import javax.inject.Named;
+import java.util.*;
 import javax.enterprise.context.RequestScoped;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext; 
 import javax.faces.component.UIComponent; 
 import javax.faces.validator.ValidatorException; 
 import javax.faces.application.FacesMessage; 
 import javax.faces.component.UIInput; 
-import java.io.Serializable; 
-import java.util.*;
-import javax.el.ELContext; 
 import javax.inject.Inject;
-
-
+import javax.inject.Named;
 
 /**
- * Contains methods to validate user input when the user in creating or 
- * modifying an account; all validators throw a ValidatorException with a particular
- * message if something is wrong with the input. 
+ * Contains methods to validate user input in various JSF pages. This is a 
+ * request scoped CDI managed bean.
+ * All methods throw a ValidatorException with a 
+ * customized message if something is wrong with the input. 
  * 
  */
 @Named
@@ -36,7 +27,7 @@ public class Validator {
     }    
     
     /**
-     * Checks if a username is already taken; this method delegates to 
+     * Checks if a username is already taken.  This method internally calls  
      * {@link AccountCreation#usernameAvailable(java.lang.String) }
      * @param context
      * @param component
@@ -45,9 +36,11 @@ public class Validator {
     public void usernameAvailable(FacesContext context, UIComponent component
             , Object value){
     String username = (String) value; 
+    // Here is an alternative method to get a managed bean from another managed
+    // bean (instead of using CDI injection): 
     //ELContext elContext = context.getELContext();
     //AccountCreation acct = (AccountCreation) elContext.getELResolver()
-      //      .getValue(elContext,null,"acct");
+    //      .getValue(elContext,null,"acct");
     
     if (!acctCreation.usernameAvailable(username)){
         FacesMessage message = new FacesMessage("Error! This username is "
@@ -57,7 +50,7 @@ public class Validator {
     }          
     
     /**
-     * Checks if the passwords entered match if passwords are entered (in the
+     * Checks if the passwords entered match when passwords are entered (in the
      * account creation use case passwords are required, but in the the account
      * modification use case they are not). 
      * 
@@ -69,8 +62,9 @@ public class Validator {
             , Object value){
         UIInput passwordField = (UIInput) component.findComponent("password");           
         String password = (String) passwordField.getLocalValue();
-        UIInput passwordReenterField = (UIInput) component.findComponent("password2");           
-        String passwordReenter = (String) passwordReenterField.getLocalValue();; 
+        UIInput passwordReenterField = (UIInput) component.findComponent(
+                "password2");           
+        String passwordReenter = (String) passwordReenterField.getLocalValue(); 
         
         boolean fail1 = passwordField.isValid() && password != null 
                 && !password.equals(passwordReenter); 
@@ -101,9 +95,9 @@ public class Validator {
     } 
     
     /**
-     * Checks if the credit card number entered is really a number; since this is 
+     * Checks if the credit card number entered is really a number. Since this is 
      * a mock application, it doesn't check if it follows the correct credit 
-     * card number format, but that would be easy to add. 
+     * card number format, but that would be easy to add (e.g. Luhn algorithm). 
      * @param context
      * @param component
      * @param value 
@@ -151,46 +145,53 @@ public class Validator {
         }        
     }
     
+    /**
+     * Checks if a billing address has been provided. This method can be used
+     * to validate customer address in the store checkout page. 
+     * When checking out, the customer must provide both shipping and billing
+     * address; if they are the same, he must provide just shipping address
+     * and select the "same as shipping" checkbox for the billing address. 
+     * 
+     * @param context
+     * @param component
+     * @param value 
+     */
     public void billingAddrValidate(FacesContext context, UIComponent component
             , Object value){
       
-            String[] billingAddrArray = {"billingStreet","billingCity", "billingState","billingCountry", "billingZIP", "billingPhone"};
-            boolean sameAsShipping = (Boolean) ((UIInput) component.findComponent("sameAsShipping")).getLocalValue(); 
-            boolean billingProvided = true; 
-            for (String s: billingAddrArray){
-               if (((UIInput) component.findComponent("billingPhone")).getLocalValue()==null){
-                   billingProvided = false; 
-               }
-            }
-            
-            if (!sameAsShipping && !billingProvided){
-            FacesMessage message = new FacesMessage("Error! No billing address provided. If same as "
-                    + "shipping, select checkbox. If different, enter below.");  
-            message.setSeverity(FacesMessage.SEVERITY_ERROR);      
-            throw new ValidatorException(message); 
-            }
-         
-    }
-    
-        public void isbnValidate(FacesContext context, UIComponent component
-            , Object value){      
-            if (value == null || !value.toString().matches("[0-9]+")){
-                FacesMessage message = new FacesMessage("Error! ISBN must be an integer");    
-                        
-                message.setSeverity(FacesMessage.SEVERITY_ERROR);      
-                throw new ValidatorException(message); }        
-    }
-        
-        
-    
-//     public void quantityValidate(FacesContext context, UIComponent component
-//            , Object value){      
-//            if (value == null || !value.toString().matches("[0-9]+")){
-//                FacesMessage message = new FacesMessage("Error! The value "
-//                        + "entered as quantity is not a number.");  
-//                message.setSeverity(FacesMessage.SEVERITY_ERROR);      
-//                throw new ValidatorException(message); }        
-//    }
+        String[] billingAddrArray = {"billingStreet","billingCity",
+            "billingState","billingCountry", "billingZIP", "billingPhone"};
+        boolean sameAsShipping = (Boolean) ((UIInput) component.findComponent(
+                "sameAsShipping")).getLocalValue(); 
+        boolean billingProvided = true; 
+        for (String s: billingAddrArray){
+           if (((UIInput) component.findComponent(
+                   "billingPhone")).getLocalValue()==null){
+               billingProvided = false; 
+           }
+        }
 
+        if (!sameAsShipping && !billingProvided){
+        FacesMessage message = new FacesMessage("Error! No billing address"
+                + " provided. If same as "
+                + "shipping, select checkbox. If different, enter below.");  
+        message.setSeverity(FacesMessage.SEVERITY_ERROR);      
+        throw new ValidatorException(message); 
+        }
+    }
     
+    /**
+     * Checks if a string entered as a book ISBN number is really a number
+     * @param context
+     * @param component
+     * @param value 
+     */
+    public void isbnValidate(FacesContext context, UIComponent component
+        , Object value){      
+        if (value == null || !value.toString().matches("[0-9]+")){
+            FacesMessage message = new FacesMessage("Error! ISBN must be an"
+                    + " integer");    
+            message.setSeverity(FacesMessage.SEVERITY_ERROR);      
+            throw new ValidatorException(message); }        
+    }
 }

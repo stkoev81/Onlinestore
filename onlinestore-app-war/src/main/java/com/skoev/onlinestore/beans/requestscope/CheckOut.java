@@ -8,11 +8,10 @@ import javax.faces.event.*;
 import com.skoev.onlinestore.beans.sessionscope.*;
 import com.skoev.onlinestore.ejb.EmailException;
 
-//TODO: fix the uploadFile IOException handling
 /**
  * This class is used to check out from the online store after products have 
  * been added to cart by {@link CartBeanRequest}. It is a request scoped CDI 
- * managed bean. Internally, it obtains a  * 
+ * managed bean. Internally, it obtains a   
  * {@link com.skoev.onlinestore.ejb.CartStateful} instance from {@link
  * com.skoev.onlinestore.beans.sessionscope.CartBeanSession} and calls the 
  * methods on that instance to perform the order placement operation. 
