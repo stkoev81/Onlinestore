@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <ui:composition template="/templates/baseLayout.xhtml">
+
+            <ui:define name="pageTitle">
+                Orders help
+            </ui:define>    
+
+            <ui:define name="content">   
+                <h1>How order processing works</h1>
+                <p> The diagram below describes the order processing sequence. Tips:</p>
+                <ul> 
+                    <li>
+                        Accountants: Before you start processing a payment, update order status to 
+                        PAYMENT_PROCESSING. Similarly,  before you start processing a refund, update status to 
+                        REFUND_PROCESSING. This will prevent other accountants from working on the same payment.                      
+                    </li>    
+                    <li> Warehouse workers: Before you start processing a shipment, update order status to 
+                        SHIPMENT_PROCESSING. This will prevent other warehouse workers from working on the 
+                        same shipment. 
+                    </li>
+                </ul>
+                <div style="text-align:center">
+                    <a href="ActivityDiagram.png"><img src="ActivityDiagram.png" style="width:60em"/> </a>
+                </div>
+            </ui:define>
+
+        </ui:composition>
+    </h:body>
+</html>
+

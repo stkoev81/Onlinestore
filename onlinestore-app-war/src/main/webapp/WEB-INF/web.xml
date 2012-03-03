@@ -39,14 +39,14 @@
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>/ProjectInfo/Overview.xhtml</welcome-file>
+        <welcome-file>LogIn/Overview.xhtml</welcome-file>
     </welcome-file-list>
     <error-page>
         <exception-type>javax.ejb.EJBException</exception-type>
         <location>/Errors/EJBException.xhtml</location>
     </error-page>
     <security-constraint>
-        <display-name>Constraint1</display-name>
+        <display-name>Pages accessible only to users who are logged in  </display-name>
         <web-resource-collection>
             <web-resource-name>account</web-resource-name>
             <description/>
@@ -61,7 +61,7 @@
         </auth-constraint>
     </security-constraint>
     <security-constraint>
-        <display-name>Constraint2</display-name>
+        <display-name>Pages accessible only to employees who are logged in  </display-name>
         <web-resource-collection>
             <web-resource-name>employee</web-resource-name>
             <description/>
@@ -75,7 +75,7 @@
         </auth-constraint>
     </security-constraint>
     <security-constraint>
-        <display-name>Constraint3</display-name>
+        <display-name>Pages accessible only to managers who are logged in </display-name>
         <web-resource-collection>
             <web-resource-name>manageproducts</web-resource-name>
             <description/>
@@ -86,6 +86,50 @@
             <role-name>MANAGER</role-name>
         </auth-constraint>
     </security-constraint>
+    
+    <!-- Uncomment this security constraint to force a secure (https) connection
+        for certain pages, over which sensitive information might be exchanged. 
+    
+    <security-constraint>
+        <display-name>A secure connection is forced when these pages are accessed</display-name>
+        <web-resource-collection>
+            <web-resource-name>login page</web-resource-name>
+            <description/>
+            <url-pattern>/LogIn/LogIn.xhtml</url-pattern>
+        </web-resource-collection>
+        <web-resource-collection>
+            <web-resource-name>CD add to cart page</web-resource-name>
+            <description/>
+            <url-pattern>/BrowseStore/CD_Details.xhtml</url-pattern>
+        </web-resource-collection>
+        <web-resource-collection>
+            <web-resource-name>Book add to cart</web-resource-name>
+            <description/>
+            <url-pattern>/BrowseStore/BookDetails.xhtml</url-pattern>
+        </web-resource-collection>
+        <web-resource-collection>
+            <web-resource-name>Items added to cart confirmation</web-resource-name>
+            <description/>
+            <url-pattern>/BrowseStore/ItemsAddedCart.xhtml</url-pattern>
+        </web-resource-collection>
+        <web-resource-collection>
+            <web-resource-name>Order confirmation</web-resource-name>
+            <description/>
+            <url-pattern>/BrowseStore/OrderConfirmation.xhtml</url-pattern>
+        </web-resource-collection>
+        <web-resource-collection>
+            <web-resource-name>View cart</web-resource-name>
+            <description/>
+            <url-pattern>/BrowseStore/ViewCart.xhtml</url-pattern>
+        </web-resource-collection>
+        <user-data-constraint>
+            <description/>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    
+    -->
+    
     <login-config>
         <auth-method>FORM</auth-method>
         <form-login-config>

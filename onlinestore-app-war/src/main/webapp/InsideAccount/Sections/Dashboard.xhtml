@@ -14,9 +14,11 @@
   
     
      <h:panelGroup rendered="#{insideAccount.isEmployee()}">
-        You have the following user roles in the system: <br/>
-        <ui:repeat value="#{insideAccount.groups}" var="group"> #{group} <br/> </ui:repeat>
-        <br/>
+        You have the following user roles in the system: 
+        <ul>
+        <ui:repeat value="#{insideAccount.groups}" var="group"> <li>#{group}</li>  </ui:repeat>
+        </ul>
+        
     </h:panelGroup>
     
     <h:panelGroup rendered ="#{insideAccount.isDemo()}">

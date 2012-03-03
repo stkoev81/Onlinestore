@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Scene Scope="Project" version="2">
+    <Scope Scope="Faces Configuration Only"/>
+    <Scope Scope="Project">
+        <Node id="BrowseStore/OrderConfirmation.xhtml" x="2150" y="150" zoom="true"/>
+        <Node id="InsideAccount/Manager/Sections/BookSpecificManage.xhtml" x="2650" y="150" zoom="true"/>
+        <Node id="Errors/EmailError.xhtml" x="650" y="1050" zoom="true"/>
+        <Node id="InsideAccount/Manager/Sections/CommonProductAdd.xhtml" x="1150" y="750" zoom="true"/>
+        <Node id="AccountCreation/ActivateAccount.xhtml" x="1400" y="450" zoom="true"/>
+        <Node id="LogIn/Sections/ReminderForm.xhtml" x="400" y="300" zoom="true"/>
+        <Node id="InsideAccount/Manager/ManageStoreProductsForm.xhtml" x="900" y="450" zoom="true"/>
+        <Node id="BrowseStore/BrowseCDs.xhtml" x="1400" y="750" zoom="true"/>
+        <Node id="InsideAccount/Employee/Sections/ViewStoreOrdersForm.xhtml" x="1400" y="900" zoom="true"/>
+        <Node id="BrowseStore/CheckOut.xhtml" x="400" y="1350" zoom="true"/>
+        <Node id="InsideAccount/Manager/ManageStoreProducts.xhtml" x="150" y="900" zoom="true"/>
+        <Node id="BrowseStore/Sections/ProductMenu.xhtml" x="400" y="150" zoom="true"/>
+        <Node id="InsideAccount/Employee/ViewStoreOrders.xhtml" x="1650" y="150" zoom="true"/>
+        <Node id="BrowseStore/Sections/OrderSummary.xhtml" x="2400" y="300" zoom="true"/>
+        <Node id="InsideAccount/Employee/Sections/ManageStoreOrdersForm.xhtml" x="1650" y="300" zoom="true"/>
+        <Node id="BrowseStore/Sections/BrowseCDsSpecific.xhtml" x="650" y="1200" zoom="true"/>
+        <Node id="InsideAccount/OrderDetails.xhtml" x="150" y="600" zoom="true"/>
+        <Node id="LogIn/LogIn.xhtml" x="2400" y="150" zoom="true"/>
+        <Node id="InsideAccount/Employee/Sections/ProductsPager.xhtml" x="650" y="900" zoom="true"/>
+        <Node id="AccountCreation/CreateAccount.xhtml" x="900" y="900" zoom="true"/>
+        <Node id="Errors/NotAvailable.xhtml" x="650" y="600" zoom="true"/>
+        <Node id="BrowseStore/Sections/CD_DetailsSpecific.xhtml" x="1650" y="750" zoom="true"/>
+        <Node id="AccountCreation/Sections/SignUpForm.xhtml" x="400" y="750" zoom="true"/>
+        <Node id="InsideAccount/ChangeAccount.xhtml" x="1400" y="600" zoom="true"/>
+        <Node id="InsideAccount/Manager/Sections/CDSpecificAdd.xhtml" x="150" y="300" zoom="true"/>
+        <Node id="InsideAccount/OrderHistory.xhtml" x="400" y="600" zoom="true"/>
+        <Node id="InsideAccount/Sections/OrderHistoryForm.xhtml" x="1150" y="600" zoom="true"/>
+        <Node id="BrowseStore/Sections/CheckOutForm.xhtml" x="900" y="600" zoom="true"/>
+        <Node id="InsideAccount/Manager/ProductAddSuccess.xhtml" x="400" y="1200" zoom="true"/>
+        <Node id="BrowseStore/BookDetails.xhtml" x="150" y="1200" zoom="true"/>
+        <Node id="InsideAccount/Changed.xhtml" x="900" y="300" zoom="true"/>
+        <Node id="InsideAccount/Manager/Sections/CDSpecificManage.xhtml" x="1150" y="900" zoom="true"/>
+        <Node id="BrowseStore/Sections/Pager.xhtml" x="1900" y="600" zoom="true"/>
+        <Node id="InsideAccount/Sections/Dashboard.xhtml" x="1150" y="300" zoom="true"/>
+        <Node id="InsideAccount/Manager/AddNewProduct.xhtml" x="150" y="1350" zoom="true"/>
+        <Node id="Errors/EJBException.xhtml" x="1400" y="300" zoom="true"/>
+        <Node id="BrowseStore/ItemsAddedCart.xhtml" x="650" y="300" zoom="true"/>
+        <Node id="LogIn/LogOut.xhtml" x="150" y="750" zoom="true"/>
+        <Node id="LogIn/Overview.xhtml" x="900" y="150" zoom="true"/>
+        <Node id="InsideAccount/Home.xhtml" x="900" y="1050" zoom="true"/>
+        <Node id="LogIn/Sections/LoginForm.xhtml" x="650" y="750" zoom="true"/>
+        <Node id="BrowseStore/ViewCart.xhtml" x="400" y="900" zoom="true"/>
+        <Node id="LogIn/PasswordReminder.xhtml" x="400" y="1050" zoom="true"/>
+        <Node id="InsideAccount/DeleteAccount.xhtml" x="2150" y="300" zoom="true"/>
+        <Node id="InsideAccount/Manager/AddNewProductForm.xhtml" x="150" y="1500" zoom="true"/>
+        <Node id="InsideAccount/Employee/ManageStoreOrders.xhtml" x="1900" y="300" zoom="true"/>
+        <Node id="BrowseStore/Sections/BrowseBooksSpecific.xhtml" x="150" y="1050" zoom="true"/>
+        <Node id="BrowseStore/Sections/BookDetailsSpecific.xhtml" x="1650" y="450" zoom="true"/>
+        <Node id="InsideAccount/Sections/ChangeAccountForm.xhtml" x="1150" y="150" zoom="true"/>
+        <Node id="InsideAccount/Manager/Sections/BookSpecificAdd.xhtml" x="2150" y="450" zoom="true"/>
+        <Node id="InsideAccount/Employee/Sections/OrdersPager.xhtml" x="650" y="450" zoom="true"/>
+        <Node id="AccountCreation/Created.xhtml" x="1400" y="150" zoom="true"/>
+        <Node id="InsideAccount/Employee/Sections/ViewStoreProductsForm.xhtml" x="400" y="450" zoom="true"/>
+        <Node id="BrowseStore/CD_Details.xhtml" x="150" y="450" zoom="true"/>
+        <Node id="Errors/CookiesDisabled.xhtml" x="900" y="750" zoom="true"/>
+        <Node id="LogIn/Sections/Sidebar.xhtml" x="150" y="150" zoom="true"/>
+        <Node id="Errors/NotAuth.xhtml" x="1650" y="600" zoom="true"/>
+        <Node id="templates/baseLayout.xhtml" x="1150" y="450" zoom="true"/>
+        <Node id="BrowseStore/BrowseBooks.xhtml" x="1900" y="450" zoom="true"/>
+        <Node id="InsideAccount/Manager/Sections/CommonProductManage.xhtml" x="650" y="150" zoom="true"/>
+        <Node id="InsideAccount/Employee/ViewStoreProducts.xhtml" x="1900" y="150" zoom="true"/>
+    </Scope>
+    <Scope Scope="All Faces Configurations"/>
+</Scene>

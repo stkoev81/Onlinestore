@@ -180,7 +180,7 @@ public class ViewStoreProducts {
      * called, the client should obtain the product object using 
      * {@link #getSingleProduct()}, update it, and set it using
      * {@link #setSingleProduct}. If the client also sets a a new image file
-     * using {@link #setUploadedFile()}, the product's image will be updated with
+     * using {@link #setUploadedFile}, the product's image will be updated with
      * it. If the client also calls {@link #setUpdateNumberInWarehouse(boolean)}
      * with an argument of true, the availability number of the product 
      * will be updated (see 

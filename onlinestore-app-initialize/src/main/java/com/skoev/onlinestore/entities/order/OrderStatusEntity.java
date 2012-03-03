@@ -34,8 +34,7 @@ public class OrderStatusEntity implements Serializable {
     * Username of user who put the order in this status.
     */
    private String actor; 
-   //@ManyToOne
-   //private UserEntity actor;
+     
 
     public String getActor() {
         return actor;

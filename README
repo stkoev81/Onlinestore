@@ -1,0 +1,3 @@
+This is a fictional online store application for selling books and CD's. I created it as a learning exercise in Java EE. It includes features such as role-based authentication, concurrency control, atomicity of transactions, exception handling and logging, and validation of user inputs. For details, see www.skoev.com. 
+
+

@@ -303,7 +303,7 @@ public class CartStateful {
      * products in the cart. 
      * @return 
      */
-    private BigDecimal calcTotalCost() {
+    public BigDecimal calcTotalCost() {
         BigDecimal sum = BigDecimal.ZERO;
         for (Long l : cartContents.keySet()) {
             OrderLineEntity ol = cartContents.get(l);

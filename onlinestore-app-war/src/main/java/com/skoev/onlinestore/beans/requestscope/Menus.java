@@ -79,7 +79,10 @@ public class Menus {
                     ,"/BrowseStore/ViewCart.xhtml",page));
             sidebarMenu.add(new MenuLink("Check out"
                     ,"/BrowseStore/CheckOut.xhtml",page)); 
-        }        
+        }   
+        sidebarMenu.add(new MenuLink("Project overview"
+                ,"/LogIn/Overview.xhtml",page)); 
+        
     }
 
     public List<MenuLink> getProductMenu() {

@@ -5,34 +5,39 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core">
-<h:head>
-    <title>Facelet Title</title>
-</h:head>
-<h:body>
-<ui:composition>
-    <h:form>
-        <f:event type="postAddToView" listener="#{logIn.checkCookies}"/>
-        <f:event type="preRenderView" listener="#{logIn.checkLoggedIn}"/>
-        <h1>Log in</h1>
-        <p>You can create an account, or you can sign in as one of the
-        following accounts: 
-        </p>
-        <h:messages layout="table" style="color:red"/>   
-        <h:panelGrid>
-            <h:outputText value ="Username"/>
-            <h:inputText value ="#{logIn.username}" id="username" 
-            label="Username" required="true"/>
-            
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <ui:composition>
+            <h:form>
+                <f:event type="postAddToView" listener="#{logIn.checkCookies}"/>
+                <f:event type="preRenderView" listener="#{logIn.checkLoggedIn}"/>
+                <h1>Log in page</h1>
+                
+               <p> You can use one of the 
+                   <h:link value ="DEMO accounts" outcome="/LogIn/Overview.xhtml"/>
+                   or <h:link value="create" outcome="/AccountCreation/CreateAccount.xhtml"/> 
+                   an account.
+               </p>
+                
+               <h:messages layout="table" style="color:red"/>   
+                
+                <h:panelGrid>
+                    <h:outputText value ="Username"/>
+                    <h:inputText value ="#{logIn.username}" id="username" 
+                                 label="Username" required="true"/>
 
-            <h:outputText value ="Password"/>
-            <h:inputSecret value ="#{logIn.passwd}" id="password" 
-            label="Password" required="true"/> 
-            
-            <h:commandButton value="Submit" action="#{logIn.logIn}" />
-                        
-        </h:panelGrid>
-    </h:form>
-</ui:composition>
-</h:body>
+
+                    <h:outputText value ="Password"/>
+                    <h:inputSecret value ="#{logIn.passwd}" id="password" 
+                                   label="Password" required="true"/> 
+
+                    <h:commandButton value="Submit" action="#{logIn.logIn}" />
+
+                </h:panelGrid>
+            </h:form>
+        </ui:composition>
+    </h:body>
 </html>
 

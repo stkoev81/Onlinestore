@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <ui:composition template="/templates/baseLayout.xhtml">
+            <ui:define name="pageTitle">
+                Overview
+            </ui:define>
+            <ui:define name="sidebar">
+                <ui:include src="Sections/Sidebar.xhtml"/>
+            </ui:define>
+            <ui:define name="content">              
+                <p>
+                    This is an online store for selling books and CD's. I developed
+                    it to practice with some of the common Java Enterprise technologies
+                    and tools. The source code, UML, business rules, and documentation 
+                    are available <a href="http://www.skoev.com/">here</a>.                     
+                </p>
+
+                <p> The application has not only customer user roles (for placing orders)
+                    but also employee user roles (for managing products and processing orders). 
+                </p>
+                <p>
+                    I hope that you check it out and let me know what you think. You can: 
+                </p>
+                <p> <ul>
+                        <li>  <h:link value="browse" outcome="/BrowseStore/BrowseBooks.xhtml"/> the store and place orders without logging in  OR
+                        </li>
+                        <li> <h:link value="create" outcome="/AccountCreation/CreateAccount.xhtml"/> a customer account and log in OR
+                        </li>
+                        <li> <h:link value="log in" outcome="/LogIn/LogIn.xhtml"/>
+                             as one of the pre-defined <b>DEMO accounts</b>, 
+                            some of which have employee user roles (password is simply p) 
+                            <ul>
+                                <li> username = e (Everyone, has all the user roles described below) <b>&lt;= Recommended</b> 
+                                </li>
+                                <li> username = c (Customer user role, can place orders) 
+                                </li>
+                                <li> username = m (Manager user role, can manage products and authorize order returns)
+                                </li>
+                                <li> username = w (Warehouse worker user role, can process order shipments)
+                                </li>  
+                                <li> username = a (Accountant user role, can process order payments)
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </p>
+
+                <p> This applicaiton is currently being hosted on a Glassfish 3.1 server and MySQL
+                    database on my home computer. 
+                </p>
+
+
+
+            </ui:define>         
+        </ui:composition>
+    </h:body>
+</html>
+
